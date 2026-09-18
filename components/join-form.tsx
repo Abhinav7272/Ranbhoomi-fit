@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { ClassGroup } from "@/lib/types";
+import { sendJoinViaFormsubmit } from "@/lib/booking";
 import { waHref } from "@/lib/site";
 
 const field =
@@ -70,9 +71,21 @@ export function JoinForm({ classes }: { classes: ClassGroup[] }) {
           website: String(form.get("website") || ""),
         }),
       });
-      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      const data = (await res.json().catch(() => null)) as { error?: string; inbox?: string } | null;
       if (!res.ok) {
         throw new Error(data?.error || "Could not send. Try WhatsApp.");
+      }
+      if (data?.inbox) {
+        await sendJoinViaFormsubmit(data.inbox, {
+          name,
+          phone,
+          age: Number(age),
+          gender,
+          who,
+          level,
+          startDate,
+          time,
+        });
       }
       setDone(true);
     } catch (err) {

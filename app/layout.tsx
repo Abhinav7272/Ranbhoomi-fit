@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Bricolage_Grotesque, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { SITE } from "@/lib/site";
 import "./globals.css";
@@ -49,6 +50,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${sans.variable} ${display.variable} ${serif.variable}`}>
       <body className="bg-plum text-cream antialiased">
+        <Script id="start-at-top" strategy="beforeInteractive">
+          {`(function () {
+            try {
+              var nav = performance.getEntriesByType("navigation")[0];
+              var reload = !nav || nav.type === "reload";
+              if (history.scrollRestoration) history.scrollRestoration = "manual";
+              if (!reload) return;
+              if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+              window.scrollTo(0, 0);
+              window.addEventListener("load", function () { window.scrollTo(0, 0); });
+            } catch (e) {}
+          })();`}
+        </Script>
         <div className="grain" aria-hidden="true" />
         {children}
       </body>

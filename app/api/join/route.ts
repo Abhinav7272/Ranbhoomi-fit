@@ -61,8 +61,11 @@ export async function POST(req: Request) {
 
   try {
     const data = await getSiteData();
-    await sendJoinMail(data.joinEmail, { name, phone, age, gender, who, level, startDate, time });
-    return NextResponse.json({ ok: true });
+    if (process.env.RESEND_API_KEY) {
+      await sendJoinMail(data.joinEmail, { name, phone, age, gender, who, level, startDate, time });
+      return NextResponse.json({ ok: true });
+    }
+    return NextResponse.json({ ok: true, inbox: data.joinEmail });
   } catch (error) {
     return fail(error);
   }
