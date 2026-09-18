@@ -91,7 +91,7 @@ export function JoinForm({ classes }: { classes: ClassGroup[] }) {
   }
 
   return (
-    <form className="mt-4 grid gap-3 sm:grid-cols-2" onSubmit={onSubmit}>
+    <form className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" onSubmit={onSubmit}>
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
       <label className="text-xs text-cream-dim">
         Name
@@ -193,7 +193,7 @@ export function JoinForm({ classes }: { classes: ClassGroup[] }) {
         </select>
       </label>
       {error ? (
-        <p className="text-sm text-cream sm:col-span-2">
+        <p className="text-sm text-cream sm:col-span-2 lg:col-span-4">
           {error}{" "}
           <a href={waHref} target="_blank" rel="noreferrer" className="underline">
             WhatsApp us
@@ -203,7 +203,7 @@ export function JoinForm({ classes }: { classes: ClassGroup[] }) {
       <button
         type="submit"
         disabled={busy}
-        className="w-fit rounded-full bg-cream px-5 py-2.5 text-sm font-semibold text-plum hover:bg-white disabled:opacity-60 sm:col-span-2"
+        className="w-fit rounded-full bg-cream px-5 py-2.5 text-sm font-semibold text-plum hover:bg-white disabled:opacity-60 sm:col-span-2 lg:col-span-4"
       >
         {busy ? "Sending…" : "Book 1st class free"}
       </button>

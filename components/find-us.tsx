@@ -98,9 +98,9 @@ export function FindUs({ classes }: { classes: ClassGroup[] }) {
       </div>
 
       <div id="join" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 pb-12 sm:px-6 lg:px-10 lg:pb-16">
-        <div className="max-w-2xl rounded-[1.5rem] border border-cream/15 bg-cream/[0.04] p-5 sm:p-6">
-          <h3 className="text-base font-semibold tracking-tight">Book your 1st class free</h3>
-          <p className="mt-2 max-w-[46ch] text-sm text-cream-dim">
+        <div className="w-full rounded-[1.5rem] border border-cream/15 bg-cream/[0.04] p-5 sm:p-6 lg:p-8">
+          <h3 className="text-base font-semibold tracking-tight sm:text-xl">Book your 1st class free</h3>
+          <p className="mt-2 max-w-[62ch] text-sm text-cream-dim">
             Fill this in to join. We will confirm with you first once we receive the request.
           </p>
           <JoinForm classes={classes} />
