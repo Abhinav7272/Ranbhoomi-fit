@@ -1,0 +1,120 @@
+{
+  "announcements": [
+    {
+      "id": "welcome",
+      "title": "Dehradun's only one of a kind fitness box",
+      "body": "Not a gym. A community. CrossFit, calisthenics, gymnastics, lifts, jumps, runs, and too much fun. Walk in, say hi, train with us.",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "kids",
+      "title": "Kids gymnastics is open",
+      "body": "We make kids strong, flexible, and actually active. A coached hour that builds the foundation and points them in the right direction. Monday, Tuesday, Thursday, and Friday, 6:00 to 7:00 PM.",
+      "createdAt": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "saturday",
+      "title": "Saturday morning batches",
+      "body": "Two sessions: 8:00 AM and 9:00 AM. Same coached class, weekend pace.",
+      "createdAt": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "walk-in",
+      "title": "First class is a conversation",
+      "body": "Call or WhatsApp before you come if you like, or walk in. Tell the coach what you have been doing and we scale from there.",
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    }
+  ],
+  "classes": [
+    {
+      "id": "adults-weekday",
+      "name": "Adults",
+      "days": "Monday - Friday",
+      "note": "",
+      "eitherOr": false,
+      "slots": [
+        { "id": "am-615", "time": "6:15 AM", "kind": "morning" },
+        { "id": "am-730", "time": "7:30 AM", "kind": "morning" },
+        { "id": "am-900", "time": "9:00 AM", "kind": "morning" },
+        { "id": "pm-700", "time": "7:00 PM", "kind": "evening" }
+      ]
+    },
+    {
+      "id": "saturday",
+      "name": "Saturday",
+      "days": "Saturday",
+      "note": "One batch only",
+      "eitherOr": true,
+      "slots": [
+        { "id": "sat-800", "time": "8:00 AM", "kind": "morning" },
+        { "id": "sat-900", "time": "9:00 AM", "kind": "morning" }
+      ]
+    },
+    {
+      "id": "kids",
+      "name": "Kids Gymnastics",
+      "days": "Mon, Tue, Thu, Fri",
+      "note": "",
+      "eitherOr": false,
+      "slots": [
+        { "id": "kids-600", "time": "6:00 - 7:00 PM", "kind": "evening" }
+      ]
+    }
+  ],
+  "gallery": [
+    { "id": "g-crossfit", "url": "/images/crossfit.png", "alt": "Coach and athletes in the box", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-calisthenics", "url": "/images/calisthenics.png", "alt": "Pull-up on the rig", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-gymnastics", "url": "/images/gymnastics.png", "alt": "Rings hold", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-hyrox", "url": "/images/hyrox.png", "alt": "Sled push on turf", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-zumba", "url": "/images/zumba.png", "alt": "Dance class", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-yoga", "url": "/images/yoga.png", "alt": "Yoga facing the hills", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-interior", "url": "/images/box-interior.png", "alt": "Inside the Ranbhoomi box", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "g-hero", "url": "/images/hero-gym.png", "alt": "The floor during a mixed session", "createdAt": "2026-09-01T00:00:00.000Z" }
+  ],
+  "highlights": [
+    { "id": "h-crossfit", "url": "/images/crossfit.png", "alt": "Coach and athletes in the box", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "h-hyrox", "url": "/images/hyrox.png", "alt": "Sled push on turf", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "h-calisthenics", "url": "/images/calisthenics.png", "alt": "Pull-up on the rig", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "h-gymnastics", "url": "/images/gymnastics.png", "alt": "Rings hold", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "h-zumba", "url": "/images/zumba.png", "alt": "Dance class", "createdAt": "2026-09-01T00:00:00.000Z" },
+    { "id": "h-yoga", "url": "/images/yoga.png", "alt": "Yoga facing the hills", "createdAt": "2026-09-01T00:00:00.000Z" }
+  ],
+  "coaches": [
+    {
+      "id": "c-mock",
+      "name": "Coach Kiran",
+      "line": "Every session is planned and facilitated. You show up, we run it.",
+      "photoUrl": "/images/crossfit.png"
+    }
+  ],
+  "mission": {
+    "title": "Our mission",
+    "body": "To ignite the warrior spirit within every individual. We are here to inspire, transform, and empower our community through fitness. Whether it is your first step or your next personal best, we give you the tools, support, and motivation to train hard, stay strong, and rise every day. Your body is your battlefield, and we train to win."
+  },
+  "vision": {
+    "title": "Our vision",
+    "body": "To create a vibrant community where fitness enthusiasts come together to inspire and motivate one another. We aim to provide expert coaching and programs for every fitness level, and to make training accessible, enjoyable, and sustainable. Together we help people reach their personal fitness goals and keep a lifelong love of movement."
+  },
+  "achievements": [
+    {
+      "id": "a-box",
+      "title": "Dehradun's only one of a kind fitness box",
+      "body": "Not a gym. A community. CrossFit, calisthenics, gymnastics, Hyrox, yoga, lifts, jumps, runs, and too much fun."
+    },
+    {
+      "id": "a-coaches",
+      "title": "Every session is coached",
+      "body": "No guesswork. Adult batches and kids gymnastics, planned and facilitated by our coaches."
+    },
+    {
+      "id": "a-kids",
+      "title": "Kids gymnastics",
+      "body": "We make kids strong, flexible, and actually active. A coached hour that builds the foundation and points them in the right direction."
+    },
+    {
+      "id": "a-community",
+      "title": "Train with people, not playlists",
+      "body": "Same class, scaled for the room. You leave knowing the names around you."
+    }
+  ]
+}
