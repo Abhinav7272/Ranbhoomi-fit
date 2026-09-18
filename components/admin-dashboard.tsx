@@ -231,10 +231,11 @@ function CoachesPanel({
         </label>
         <label className="text-sm text-cream-dim">
           One line
-          <input
+          <textarea
             value={line}
             onChange={(e) => setLine(e.target.value)}
-            maxLength={90}
+            maxLength={200}
+            rows={3}
             className="mt-2 w-full rounded-2xl border border-line bg-plum-mid px-4 py-3"
             required
           />
@@ -255,42 +256,94 @@ function CoachesPanel({
       </form>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
-          <li key={item.id} className="flex gap-4 rounded-2xl bg-plum-mid p-3">
-            <Image
-              src={item.photoUrl}
-              alt={item.name}
-              width={72}
-              height={96}
-              unoptimized={item.photoUrl.startsWith("http")}
-              className="h-24 w-[72px] object-cover"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold">{item.name}</p>
-              <p className="mt-1 text-sm text-cream-dim">{item.line}</p>
-              <div className="mt-3">
-                <PhotoPick
-                  label="Change photo"
-                  disabled={busy}
-                  onFile={(next) => {
-                    const form = new FormData();
-                    form.append("id", item.id);
-                    form.append("file", next);
-                    run(() => fetch("/api/coaches", { method: "PATCH", body: form }));
-                  }}
-                />
-              </div>
-            </div>
-            <button
-              type="button"
-              aria-label={`Remove ${item.name}`}
-              className="text-cream-dim hover:text-coral"
-              onClick={() => run(() => fetch(`/api/coaches?id=${item.id}`, { method: "DELETE" }))}
-            >
-              <Trash size={18} />
-            </button>
-          </li>
+          <CoachEditor key={item.id} item={item} busy={busy} run={run} />
         ))}
       </ul>
     </section>
+  );
+}
+
+function CoachEditor({
+  item,
+  busy,
+  run,
+}: {
+  item: Coach;
+  busy: boolean;
+  run: (fn: () => Promise<Response>) => Promise<void>;
+}) {
+  const [name, setName] = useState(item.name);
+  const [line, setLine] = useState(item.line);
+
+  useEffect(() => {
+    setName(item.name);
+    setLine(item.line);
+  }, [item.name, item.line]);
+
+  const dirty = name.trim() !== item.name || line.trim() !== item.line;
+
+  return (
+    <li className="flex gap-4 rounded-2xl bg-plum-mid p-3">
+      <Image
+        src={item.photoUrl}
+        alt={item.name}
+        width={72}
+        height={96}
+        unoptimized={item.photoUrl.startsWith("http")}
+        className="h-24 w-[72px] object-cover"
+      />
+      <form
+        className="min-w-0 flex-1 grid gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const form = new FormData();
+          form.append("id", item.id);
+          form.append("name", name);
+          form.append("line", line);
+          run(() => fetch("/api/coaches", { method: "PATCH", body: form }));
+        }}
+      >
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full rounded-xl border border-line bg-plum px-3 py-2 text-sm font-semibold"
+          required
+        />
+        <textarea
+          value={line}
+          onChange={(e) => setLine(e.target.value)}
+          maxLength={200}
+          rows={3}
+          className="w-full rounded-xl border border-line bg-plum px-3 py-2 text-sm"
+          required
+        />
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            disabled={busy || !dirty}
+            className="rounded-full border border-line px-4 py-2 text-sm disabled:opacity-40"
+          >
+            Save
+          </button>
+          <PhotoPick
+            label="Change photo"
+            disabled={busy}
+            onFile={(next) => {
+              const form = new FormData();
+              form.append("id", item.id);
+              form.append("file", next);
+              run(() => fetch("/api/coaches", { method: "PATCH", body: form }));
+            }}
+          />
+        </div>
+      </form>
+      <button
+        type="button"
+        aria-label={`Remove ${item.name}`}
+        className="text-cream-dim hover:text-coral"
+        onClick={() => run(() => fetch(`/api/coaches?id=${item.id}`, { method: "DELETE" }))}
+      >
+        <Trash size={18} />
+      </button>
+    </li>
   );
 }
