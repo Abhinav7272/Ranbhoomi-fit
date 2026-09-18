@@ -77,9 +77,6 @@ export function Gallery({
       <div className="mx-auto flex max-w-[1400px] items-end justify-between gap-4 px-4 py-8 sm:px-6 lg:px-10">
         <div>
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Gallery</h2>
-          <p className="mt-1 text-sm text-cream-dim">
-            {items.length} {items.length === 1 ? "photo" : "photos"}
-          </p>
         </div>
         {items.length > 1 ? (
           <div className="flex gap-2">

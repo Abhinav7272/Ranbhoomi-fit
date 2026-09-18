@@ -14,7 +14,6 @@ export default async function AdminPage() {
       coaches={data.coaches}
       mission={data.mission}
       vision={data.vision}
-      achievements={data.achievements}
     />
   );
 }

@@ -7,7 +7,8 @@ import { Trash, SignOut } from "@phosphor-icons/react";
 import { AnnouncementsPanel } from "@/components/admin-announcements";
 import { ClassesPanel } from "@/components/admin-classes";
 import { MediaPanel } from "@/components/admin-media";
-import type { ClassGroup, GalleryImage, Announcement, StoryBlock, Achievement, Coach } from "@/lib/types";
+import { PhotoPick } from "@/components/photo-pick";
+import type { ClassGroup, GalleryImage, Announcement, StoryBlock, Coach } from "@/lib/types";
 
 type Props = {
   announcements: Announcement[];
@@ -17,7 +18,6 @@ type Props = {
   coaches: Coach[];
   mission: StoryBlock;
   vision: StoryBlock;
-  achievements: Achievement[];
 };
 
 export function AdminDashboard({
@@ -28,7 +28,6 @@ export function AdminDashboard({
   coaches,
   mission,
   vision,
-  achievements,
 }: Props) {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -74,12 +73,10 @@ export function AdminDashboard({
 
       <AnnouncementsPanel items={announcements} busy={busy} run={run} />
       <StoryPanel mission={mission} vision={vision} busy={busy} run={run} />
-      <AchievementsPanel items={achievements} busy={busy} run={run} />
       <ClassesPanel groups={classes} busy={busy} run={run} />
       <CoachesPanel items={coaches} busy={busy} run={run} />
       <MediaPanel
         title="Gallery"
-        blurb="Photos in the homepage scroller. Upload, caption, replace, reorder, or remove. An empty gallery stays off the site."
         endpoint="/api/gallery"
         items={gallery}
         busy={busy}
@@ -87,7 +84,6 @@ export function AdminDashboard({
       />
       <MediaPanel
         title="Highlights"
-        blurb="The homepage photo grid. Same controls as gallery. An empty highlights section stays off the site."
         endpoint="/api/highlights"
         items={highlights}
         busy={busy}
@@ -180,84 +176,6 @@ function StoryPanel({
   );
 }
 
-function AchievementsPanel({
-  items,
-  busy,
-  run,
-}: {
-  items: Achievement[];
-  busy: boolean;
-  run: (fn: () => Promise<Response>) => Promise<void>;
-}) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-
-  return (
-    <section className="mt-12 border-t border-line pt-10">
-      <h2 className="text-2xl font-semibold">Achievements</h2>
-      <form
-        className="mt-6 grid gap-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          run(() =>
-            fetch("/api/achievements", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ title, body }),
-            }),
-          ).then(() => {
-            setTitle("");
-            setBody("");
-          });
-        }}
-      >
-        <label className="text-sm text-cream-dim">
-          Title
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="mt-2 w-full rounded-2xl border border-line bg-plum-mid px-4 py-3"
-            required
-          />
-        </label>
-        <label className="text-sm text-cream-dim">
-          Body
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            className="mt-2 min-h-24 w-full rounded-2xl border border-line bg-plum-mid px-4 py-3"
-            required
-          />
-        </label>
-        <button
-          disabled={busy}
-          className="w-fit rounded-full bg-cream px-5 py-2 text-sm font-semibold text-plum disabled:opacity-60"
-        >
-          Add achievement
-        </button>
-      </form>
-      <ul className="mt-8 space-y-4">
-        {items.map((item) => (
-          <li key={item.id} className="flex items-start justify-between gap-4 rounded-2xl bg-plum-mid p-4">
-            <div>
-              <p className="font-semibold">{item.title}</p>
-              <p className="mt-1 text-sm text-cream-dim">{item.body}</p>
-            </div>
-            <button
-              type="button"
-              aria-label="Remove achievement"
-              className="text-cream-dim hover:text-coral"
-              onClick={() => run(() => fetch(`/api/achievements?id=${item.id}`, { method: "DELETE" }))}
-            >
-              <Trash size={18} />
-            </button>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
 function CoachesPanel({
   items,
   busy,
@@ -311,20 +229,11 @@ function CoachesPanel({
             required
           />
         </label>
-        <label className="block text-sm text-cream-dim">
-          Photo
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            className="mt-2 block w-full text-sm"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-            required
-          />
-        </label>
+        <PhotoPick file={file} onFile={setFile} disabled={busy} />
         {preview ? (
           <div className="relative h-40 w-32 overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={preview} alt="Preview" className="h-full w-full object-cover" />
+            <img src={preview} alt="" className="h-full w-full object-cover" />
           </div>
         ) : null}
         <button
@@ -347,6 +256,18 @@ function CoachesPanel({
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{item.name}</p>
               <p className="mt-1 text-sm text-cream-dim">{item.line}</p>
+              <div className="mt-3">
+                <PhotoPick
+                  label="Change photo"
+                  disabled={busy}
+                  onFile={(next) => {
+                    const form = new FormData();
+                    form.append("id", item.id);
+                    form.append("file", next);
+                    run(() => fetch("/api/coaches", { method: "PATCH", body: form }));
+                  }}
+                />
+              </div>
             </div>
             <button
               type="button"

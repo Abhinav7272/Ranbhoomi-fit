@@ -52,6 +52,41 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
+  const form = await req.formData();
+  const id = String(form.get("id") || "").trim();
+  const file = form.get("file");
+  if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  if (!(file instanceof File)) {
+    return NextResponse.json({ error: "Choose a photo" }, { status: 400 });
+  }
+  if (!ALLOWED.has(file.type)) {
+    return NextResponse.json({ error: "Use JPG, PNG, WEBP, or GIF" }, { status: 400 });
+  }
+  if (file.size > MAX) {
+    return NextResponse.json({ error: "Image must be under 8MB" }, { status: 400 });
+  }
+
+  const data = await getSiteData();
+  const coach = data.coaches.find((item) => item.id === id);
+  if (!coach) return NextResponse.json({ error: "Coach not found" }, { status: 404 });
+
+  try {
+    const photoUrl = await saveUpload(file);
+    const previous = coach.photoUrl;
+    coach.photoUrl = photoUrl;
+    await deleteUploadIfUnused(data, previous);
+    await saveSiteData(data);
+    return NextResponse.json({ ok: true, coaches: data.coaches });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Upload failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: Request) {
   const denied = await requireAdmin();
   if (denied) return denied;

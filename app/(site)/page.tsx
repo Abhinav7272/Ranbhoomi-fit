@@ -1,4 +1,3 @@
-import { Achievements } from "@/components/achievements";
 import { Announcements } from "@/components/announcements";
 import { Community } from "@/components/community";
 import { Coaches } from "@/components/coaches";
@@ -37,9 +36,8 @@ export default async function HomePage() {
       <Community />
       <Disciplines />
       <HomeTimings groups={data.classes} />
-      <Achievements items={data.achievements} />
-      <Story mission={data.mission} vision={data.vision} />
       <Announcements items={data.announcements} />
+      <Story mission={data.mission} vision={data.vision} />
       <Gallery items={data.gallery} lightboxItems={lightboxItems} />
       <Highlights items={data.highlights} lightboxItems={lightboxItems} />
       <Coaches items={data.coaches} />

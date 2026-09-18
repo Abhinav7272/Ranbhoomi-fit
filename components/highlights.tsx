@@ -22,7 +22,6 @@ export function Highlights({
         <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
           Highlights
         </h2>
-        <p className="mt-2 max-w-[48ch] text-sm text-cream-dim">Tap a photo to open the full set.</p>
         <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-3">
           {items.map((item) => (
             <button
