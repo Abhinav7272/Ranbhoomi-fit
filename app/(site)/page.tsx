@@ -19,13 +19,13 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
+      <Gallery items={data.gallery} lightboxItems={data.gallery} />
       <Community />
       <Disciplines />
       <HomeTimings groups={data.classes} />
+      <Highlights items={data.highlights} lightboxItems={data.highlights} />
       <Announcements items={data.announcements} />
       <Story mission={data.mission} vision={data.vision} />
-      <Gallery items={data.gallery} lightboxItems={data.gallery} />
-      <Highlights items={data.highlights} lightboxItems={data.highlights} />
       <Coaches items={data.coaches} />
       <FindUs />
     </>

@@ -22,10 +22,10 @@ export const waHref = `https://wa.me/${SITE.phone.replace("+", "")}`;
 export const mailHref = `mailto:${SITE.email}`;
 
 export const NAV = [
+  { href: "/#gallery", label: "Gallery" },
   { href: "/#train", label: "Train" },
   { href: "/#timings", label: "Timings" },
   { href: "/#announcements", label: "Announcements" },
   { href: "/#coaches", label: "Coaches" },
-  { href: "/#gallery", label: "Gallery" },
   { href: "/#find-us", label: "Find us" },
 ] as const;
