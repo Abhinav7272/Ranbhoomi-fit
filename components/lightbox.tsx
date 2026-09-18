@@ -76,6 +76,7 @@ export function Lightbox({
             alt={item.alt || "Ranbhoomi photo"}
             fill
             sizes="100vw"
+            unoptimized={item.url.startsWith("http")}
             className="object-contain"
             priority
           />

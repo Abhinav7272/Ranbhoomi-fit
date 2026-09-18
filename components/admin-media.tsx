@@ -29,7 +29,7 @@ export function MediaPanel({
   return (
     <section className={`mt-12 border-t border-line pt-10 ${padded ? "pb-20" : ""}`}>
       <h2 className="text-2xl font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-cream-dim">Same photos as the homepage. Add or delete.</p>
+      <p className="mt-2 text-sm text-cream-dim">These are the homepage Gallery and Highlights. Add or delete here and both update.</p>
       <form
         className="mt-6 grid gap-3"
         onSubmit={(e) => {
@@ -66,6 +66,7 @@ export function MediaPanel({
                 alt=""
                 width={400}
                 height={300}
+                unoptimized={item.url.startsWith("http")}
                 className="h-40 w-full object-cover"
               />
               <button

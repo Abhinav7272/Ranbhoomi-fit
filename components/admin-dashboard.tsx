@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Trash, SignOut } from "@phosphor-icons/react";
 import { AnnouncementsPanel } from "@/components/admin-announcements";
 import { ClassesPanel } from "@/components/admin-classes";
@@ -14,7 +14,6 @@ type Props = {
   announcements: Announcement[];
   classes: ClassGroup[];
   gallery: GalleryImage[];
-  highlights: GalleryImage[];
   coaches: Coach[];
   mission: StoryBlock;
   vision: StoryBlock;
@@ -24,7 +23,6 @@ export function AdminDashboard({
   announcements,
   classes,
   gallery,
-  highlights,
   coaches,
   mission,
   vision,
@@ -32,10 +30,11 @@ export function AdminDashboard({
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [photos, setPhotos] = useState(gallery);
 
-  function refresh() {
-    router.refresh();
-  }
+  useEffect(() => {
+    setPhotos(gallery);
+  }, [gallery]);
 
   async function run(fn: () => Promise<Response>) {
     setBusy(true);
@@ -47,7 +46,8 @@ export function AdminDashboard({
         setError(json.error || "Something went wrong");
         return;
       }
-      refresh();
+      if (Array.isArray(json.gallery)) setPhotos(json.gallery);
+      await router.refresh();
     } finally {
       setBusy(false);
     }
@@ -76,16 +76,9 @@ export function AdminDashboard({
       <ClassesPanel groups={classes} busy={busy} run={run} />
       <CoachesPanel items={coaches} busy={busy} run={run} />
       <MediaPanel
-        title="Gallery"
+        title="Photos"
         endpoint="/api/gallery"
-        items={gallery}
-        busy={busy}
-        run={run}
-      />
-      <MediaPanel
-        title="Highlights"
-        endpoint="/api/highlights"
-        items={highlights}
+        items={photos}
         busy={busy}
         run={run}
         padded
@@ -251,6 +244,7 @@ function CoachesPanel({
               alt={item.name}
               width={72}
               height={96}
+              unoptimized={item.photoUrl.startsWith("http")}
               className="h-24 w-[72px] object-cover"
             />
             <div className="min-w-0 flex-1">

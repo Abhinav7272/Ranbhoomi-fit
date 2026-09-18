@@ -40,6 +40,7 @@ export function Highlights({
                 alt={item.alt || "Ranbhoomi highlight"}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
+                unoptimized={item.url.startsWith("http")}
                 className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.03]"
               />
             </button>

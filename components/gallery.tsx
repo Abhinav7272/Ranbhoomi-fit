@@ -116,6 +116,7 @@ export function Gallery({
                   alt={item.alt || "Ranbhoomi gallery image"}
                   fill
                   sizes="200px"
+                  unoptimized={item.url.startsWith("http")}
                   className="object-cover"
                 />
               </button>

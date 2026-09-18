@@ -9,26 +9,13 @@ import { Highlights } from "@/components/highlights";
 import { HomeTimings } from "@/components/home-timings";
 import { Story } from "@/components/story";
 import { getSiteData } from "@/lib/store";
-import type { GalleryImage } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
-
-function uniquePhotos(...groups: GalleryImage[][]) {
-  const seen = new Set<string>();
-  const out: GalleryImage[] = [];
-  for (const group of groups) {
-    for (const item of group) {
-      if (seen.has(item.url)) continue;
-      seen.add(item.url);
-      out.push(item);
-    }
-  }
-  return out;
-}
+export const revalidate = 0;
 
 export default async function HomePage() {
   const data = await getSiteData();
-  const lightboxItems = uniquePhotos(data.highlights, data.gallery);
+  const photos = data.gallery;
 
   return (
     <>
@@ -38,8 +25,8 @@ export default async function HomePage() {
       <HomeTimings groups={data.classes} />
       <Announcements items={data.announcements} />
       <Story mission={data.mission} vision={data.vision} />
-      <Gallery items={data.gallery} lightboxItems={lightboxItems} />
-      <Highlights items={data.highlights} lightboxItems={lightboxItems} />
+      <Gallery items={photos} lightboxItems={photos} />
+      <Highlights items={photos} lightboxItems={photos} />
       <Coaches items={data.coaches} />
       <FindUs />
     </>

@@ -19,6 +19,7 @@ export function Coaches({ items }: { items: Coach[] }) {
                   alt={coach.name}
                   fill
                   sizes="128px"
+                  unoptimized={coach.photoUrl.startsWith("http")}
                   className="object-cover object-top"
                 />
               </div>
