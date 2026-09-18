@@ -33,12 +33,12 @@ function altFromName(file: File) {
   return file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
 }
 
-export async function listImages(_key: ImageKey) {
+export async function listImages(key: ImageKey) {
   const data = await getSiteData();
-  return NextResponse.json(data.gallery);
+  return NextResponse.json(data[key]);
 }
 
-export async function postImage(_key: ImageKey, req: Request) {
+export async function postImage(key: ImageKey, req: Request) {
   const denied = await requireAdmin();
   if (denied) return denied;
 
@@ -56,7 +56,7 @@ export async function postImage(_key: ImageKey, req: Request) {
     const data = await getSiteData();
 
     if (replaceId) {
-      const item = data.gallery.find((image) => image.id === replaceId);
+      const item = data[key].find((image) => image.id === replaceId);
       if (!item) {
         await deleteUpload(url);
         return NextResponse.json({ error: "Image not found" }, { status: 404 });
@@ -64,20 +64,18 @@ export async function postImage(_key: ImageKey, req: Request) {
       const previous = item.url;
       item.url = url;
       if (altInput) item.alt = altInput;
-      data.highlights = data.gallery;
       await deleteUploadIfUnused(data, previous);
     } else {
-      data.gallery.unshift({
+      data[key].unshift({
         id: newId(),
         url,
         alt: altInput || altFromName(parsed.file),
         createdAt: new Date().toISOString(),
       });
-      data.highlights = data.gallery;
     }
 
     await saveSiteData(data);
-    return NextResponse.json({ ok: true, gallery: data.gallery, highlights: data.gallery });
+    return NextResponse.json({ ok: true, gallery: data.gallery, highlights: data.highlights });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Upload failed";
     return NextResponse.json({ error: message }, { status: 500 });
@@ -135,8 +133,7 @@ export async function deleteImage(key: ImageKey, req: Request) {
   const image = data[key].find((item) => item.id === id);
   if (!image) return NextResponse.json({ error: "Image not found" }, { status: 404 });
 
-  data.gallery = data.gallery.filter((item) => item.url !== image.url && item.id !== id);
-  data.highlights = data.highlights.filter((item) => item.url !== image.url && item.id !== id);
+  data[key] = data[key].filter((item) => item.id !== id);
 
   try {
     await deleteUploadIfUnused(data, image.url);

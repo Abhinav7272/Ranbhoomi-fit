@@ -14,6 +14,7 @@ type Props = {
   announcements: Announcement[];
   classes: ClassGroup[];
   gallery: GalleryImage[];
+  highlights: GalleryImage[];
   coaches: Coach[];
   mission: StoryBlock;
   vision: StoryBlock;
@@ -23,6 +24,7 @@ export function AdminDashboard({
   announcements,
   classes,
   gallery,
+  highlights,
   coaches,
   mission,
   vision,
@@ -30,11 +32,16 @@ export function AdminDashboard({
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [photos, setPhotos] = useState(gallery);
+  const [galleryItems, setGalleryItems] = useState(gallery);
+  const [highlightItems, setHighlightItems] = useState(highlights);
 
   useEffect(() => {
-    setPhotos(gallery);
+    setGalleryItems(gallery);
   }, [gallery]);
+
+  useEffect(() => {
+    setHighlightItems(highlights);
+  }, [highlights]);
 
   async function run(fn: () => Promise<Response>) {
     setBusy(true);
@@ -46,7 +53,8 @@ export function AdminDashboard({
         setError(json.error || "Something went wrong");
         return;
       }
-      if (Array.isArray(json.gallery)) setPhotos(json.gallery);
+      if (Array.isArray(json.gallery)) setGalleryItems(json.gallery);
+      if (Array.isArray(json.highlights)) setHighlightItems(json.highlights);
       await router.refresh();
     } finally {
       setBusy(false);
@@ -76,9 +84,18 @@ export function AdminDashboard({
       <ClassesPanel groups={classes} busy={busy} run={run} />
       <CoachesPanel items={coaches} busy={busy} run={run} />
       <MediaPanel
-        title="Photos"
+        title="Gallery"
+        blurb="Homepage scroller. Add or delete photos here only."
         endpoint="/api/gallery"
-        items={photos}
+        items={galleryItems}
+        busy={busy}
+        run={run}
+      />
+      <MediaPanel
+        title="Highlights"
+        blurb="Homepage photo grid. Separate from gallery."
+        endpoint="/api/highlights"
+        items={highlightItems}
         busy={busy}
         run={run}
         padded

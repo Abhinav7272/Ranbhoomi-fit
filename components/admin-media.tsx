@@ -10,6 +10,7 @@ type Run = (fn: () => Promise<Response>) => Promise<void>;
 
 export function MediaPanel({
   title,
+  blurb,
   endpoint,
   items,
   busy,
@@ -17,6 +18,7 @@ export function MediaPanel({
   padded,
 }: {
   title: string;
+  blurb: string;
   endpoint: string;
   items: GalleryImage[];
   busy: boolean;
@@ -29,7 +31,7 @@ export function MediaPanel({
   return (
     <section className={`mt-12 border-t border-line pt-10 ${padded ? "pb-20" : ""}`}>
       <h2 className="text-2xl font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-cream-dim">These are the homepage Gallery and Highlights. Add or delete here and both update.</p>
+      <p className="mt-2 text-sm text-cream-dim">{blurb}</p>
       <form
         className="mt-6 grid gap-3"
         onSubmit={(e) => {

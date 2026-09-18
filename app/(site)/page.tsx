@@ -15,7 +15,6 @@ export const revalidate = 0;
 
 export default async function HomePage() {
   const data = await getSiteData();
-  const photos = data.gallery;
 
   return (
     <>
@@ -25,8 +24,8 @@ export default async function HomePage() {
       <HomeTimings groups={data.classes} />
       <Announcements items={data.announcements} />
       <Story mission={data.mission} vision={data.vision} />
-      <Gallery items={photos} lightboxItems={photos} />
-      <Highlights items={photos} lightboxItems={photos} />
+      <Gallery items={data.gallery} lightboxItems={data.gallery} />
+      <Highlights items={data.highlights} lightboxItems={data.highlights} />
       <Coaches items={data.coaches} />
       <FindUs />
     </>

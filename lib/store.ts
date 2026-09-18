@@ -63,9 +63,9 @@ function normalizeAnnouncements(
     .filter((item) => item.body);
 }
 
-function normalizeImages(items: GalleryImage[] | undefined): GalleryImage[] {
-  if (!Array.isArray(items)) return [];
-  return items
+function normalizeImages(items: GalleryImage[] | undefined, fallback: GalleryImage[]): GalleryImage[] {
+  const source = Array.isArray(items) ? items : fallback;
+  return source
     .filter((item) => item && item.id && item.url)
     .map((item) => ({
       id: item.id,
@@ -75,28 +75,13 @@ function normalizeImages(items: GalleryImage[] | undefined): GalleryImage[] {
     }));
 }
 
-function mergePhotos(a: GalleryImage[], b: GalleryImage[]): GalleryImage[] {
-  const seen = new Set<string>();
-  const out: GalleryImage[] = [];
-  for (const item of [...a, ...b]) {
-    if (seen.has(item.url)) continue;
-    seen.add(item.url);
-    out.push(item);
-  }
-  return out;
-}
-
 function normalize(data: Partial<SiteData> | null | undefined): SiteData {
   const s = cloneSeed();
-  const stored = Array.isArray(data?.gallery) || Array.isArray(data?.highlights);
-  const photos = stored
-    ? mergePhotos(normalizeImages(data?.gallery), normalizeImages(data?.highlights))
-    : s.gallery;
   return {
     announcements: normalizeAnnouncements(data?.announcements, s.announcements),
     classes: normalizeClasses(data?.classes, s.classes),
-    gallery: photos,
-    highlights: photos,
+    gallery: normalizeImages(data?.gallery, s.gallery),
+    highlights: normalizeImages(data?.highlights, s.highlights),
     coaches: data?.coaches ?? s.coaches,
     mission: data?.mission ?? s.mission,
     vision: data?.vision ?? s.vision,
@@ -166,7 +151,6 @@ export async function getSiteData(): Promise<SiteData> {
 }
 
 export async function saveSiteData(data: SiteData) {
-  data.highlights = data.gallery;
   if (hasBlob()) {
     await writeBlob(data);
     return;

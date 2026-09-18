@@ -11,6 +11,7 @@ export default async function AdminPage() {
       announcements={data.announcements}
       classes={data.classes}
       gallery={data.gallery}
+      highlights={data.highlights}
       coaches={data.coaches}
       mission={data.mission}
       vision={data.vision}
