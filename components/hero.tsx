@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { Images, Megaphone } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import { Button } from "@/components/button";
 
 export function Hero() {
@@ -39,22 +37,11 @@ export function Hero() {
             <br />
             Not a gym. A community.
           </p>
-          <div className="mt-5 flex items-center gap-3">
-            <Button href="/#find-us">Join</Button>
-            <Link
-              href="/#announcements"
-              aria-label="Announcements"
-              className="flex h-14 w-14 items-center justify-center rounded-full border border-cream/70 text-cream hover:bg-cream hover:text-plum"
-            >
-              <Megaphone size={20} weight="bold" />
-            </Link>
-            <Link
-              href="/#gallery"
-              aria-label="Gallery"
-              className="flex h-14 w-14 items-center justify-center rounded-full border border-cream/70 text-cream hover:bg-cream hover:text-plum"
-            >
-              <Images size={20} weight="bold" />
-            </Link>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Button href="/#join">Book your 1st class free</Button>
+            <Button href="/#contact" variant="outline">
+              Contact
+            </Button>
           </div>
         </motion.div>
       </div>

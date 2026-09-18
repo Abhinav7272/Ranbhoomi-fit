@@ -27,7 +27,7 @@ export default async function HomePage() {
       <Announcements items={data.announcements} />
       <Story mission={data.mission} vision={data.vision} />
       <Coaches items={data.coaches} />
-      <FindUs />
+      <FindUs classes={data.classes} />
     </>
   );
 }

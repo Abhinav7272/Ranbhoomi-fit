@@ -7,9 +7,11 @@ import {
   WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/button";
+import { JoinForm } from "@/components/join-form";
 import { mailHref, SITE, telHref, waHref } from "@/lib/site";
+import type { ClassGroup } from "@/lib/types";
 
-export function FindUs() {
+export function FindUs({ classes }: { classes: ClassGroup[] }) {
   return (
     <section id="find-us" className="scroll-mt-20">
       <div className="mx-auto grid max-w-[1400px] gap-10 px-4 pt-8 pb-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:pt-8 lg:pb-16">
@@ -92,6 +94,16 @@ export function FindUs() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
+        </div>
+      </div>
+
+      <div id="join" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 pb-12 sm:px-6 lg:px-10 lg:pb-16">
+        <div className="max-w-2xl rounded-[1.5rem] border border-cream/15 bg-cream/[0.04] p-5 sm:p-6">
+          <h3 className="text-base font-semibold tracking-tight">Book your 1st class free</h3>
+          <p className="mt-2 max-w-[46ch] text-sm text-cream-dim">
+            Fill this in to join. We will confirm with you first once we receive the request.
+          </p>
+          <JoinForm classes={classes} />
         </div>
       </div>
     </section>
