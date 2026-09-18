@@ -40,7 +40,7 @@ export function Hero() {
             Not a gym. A community.
           </p>
           <div className="mt-5 flex items-center gap-3">
-            <Button href="/#contact">Contact</Button>
+            <Button href="/#find-us">Join</Button>
             <Link
               href="/#announcements"
               aria-label="Announcements"
