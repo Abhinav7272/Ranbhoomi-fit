@@ -56,4 +56,5 @@ export type SiteData = {
   mission: StoryBlock;
   vision: StoryBlock;
   achievements: Achievement[];
+  joinEmail: string;
 };

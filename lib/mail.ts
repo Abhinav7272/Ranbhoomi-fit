@@ -11,7 +11,8 @@ export type JoinBooking = {
   time: string;
 };
 
-export async function sendJoinMail(input: JoinBooking) {
+export async function sendJoinMail(to: string, input: JoinBooking) {
+  const inbox = to.trim() || SITE.email;
   const subject = `Query to join first class — ${input.name}`;
   const text = [
     "Query to join first class",
@@ -38,7 +39,7 @@ export async function sendJoinMail(input: JoinBooking) {
       },
       body: JSON.stringify({
         from: "Ranbhoomi <beth.t@example.com>",
-        to: [SITE.email],
+        to: [inbox],
         subject,
         text,
       }),
@@ -49,7 +50,7 @@ export async function sendJoinMail(input: JoinBooking) {
     return;
   }
 
-  const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(SITE.email)}`, {
+  const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

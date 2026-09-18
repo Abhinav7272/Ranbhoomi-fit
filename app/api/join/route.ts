@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { fail } from "@/lib/api";
 import { sendJoinMail } from "@/lib/mail";
+import { getSiteData } from "@/lib/store";
 
 const PHONE = /^[+0-9][0-9\s-]{8,18}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -59,7 +60,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    await sendJoinMail({ name, phone, age, gender, who, level, startDate, time });
+    const data = await getSiteData();
+    await sendJoinMail(data.joinEmail, { name, phone, age, gender, who, level, startDate, time });
     return NextResponse.json({ ok: true });
   } catch (error) {
     return fail(error);

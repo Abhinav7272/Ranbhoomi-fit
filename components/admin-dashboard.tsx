@@ -18,6 +18,7 @@ type Props = {
   coaches: Coach[];
   mission: StoryBlock;
   vision: StoryBlock;
+  joinEmail: string;
 };
 
 export function AdminDashboard({
@@ -28,6 +29,7 @@ export function AdminDashboard({
   coaches,
   mission,
   vision,
+  joinEmail,
 }: Props) {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -79,6 +81,7 @@ export function AdminDashboard({
       </header>
       {error ? <p className="mt-4 text-sm text-coral">{error}</p> : null}
 
+      <InboxPanel joinEmail={joinEmail} busy={busy} run={run} />
       <AnnouncementsPanel items={announcements} busy={busy} run={run} />
       <StoryPanel mission={mission} vision={vision} busy={busy} run={run} />
       <ClassesPanel groups={classes} busy={busy} run={run} />
@@ -101,6 +104,62 @@ export function AdminDashboard({
         padded
       />
     </main>
+  );
+}
+
+function InboxPanel({
+  joinEmail,
+  busy,
+  run,
+}: {
+  joinEmail: string;
+  busy: boolean;
+  run: (fn: () => Promise<Response>) => Promise<void>;
+}) {
+  const [email, setEmail] = useState(joinEmail);
+
+  useEffect(() => {
+    setEmail(joinEmail);
+  }, [joinEmail]);
+
+  return (
+    <section className="mt-12 border-t border-line pt-10">
+      <h2 className="text-2xl font-semibold">Booking inbox</h2>
+      <p className="mt-2 max-w-[62ch] text-sm text-cream-dim">
+        First-class requests go to this email. Change it anytime. If you switch address, open that
+        inbox once and confirm the first booking email.
+      </p>
+      <form
+        className="mt-6 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end"
+        onSubmit={(e) => {
+          e.preventDefault();
+          run(() =>
+            fetch("/api/settings", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ joinEmail: email }),
+            }),
+          );
+        }}
+      >
+        <label className="text-sm text-cream-dim">
+          Receiving email
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-2 w-full rounded-2xl border border-line bg-plum-mid px-4 py-3"
+            required
+          />
+        </label>
+        <button
+          disabled={busy}
+          className="h-fit w-fit rounded-full bg-cream px-5 py-3 text-sm font-semibold text-plum disabled:opacity-60"
+        >
+          Save email
+        </button>
+      </form>
+    </section>
   );
 }
 

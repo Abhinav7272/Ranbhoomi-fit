@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import type { ClassGroup, ClassSlot, GalleryImage, SiteData, SlotKind } from "./types";
 import seed from "../data/site.json";
+import { SITE } from "./site";
 
 const LOCAL_FILE = path.join(process.cwd(), "data", "site.json");
 const BLOB_PREFIX = "rfc/site/";
@@ -75,6 +76,11 @@ function normalizeImages(items: GalleryImage[] | undefined, fallback: GalleryIma
     }));
 }
 
+function normalizeEmail(value: unknown, fallback: string) {
+  const email = String(value ?? "").trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : fallback;
+}
+
 function normalize(data: Partial<SiteData> | null | undefined): SiteData {
   const s = cloneSeed();
   return {
@@ -86,6 +92,7 @@ function normalize(data: Partial<SiteData> | null | undefined): SiteData {
     mission: data?.mission ?? s.mission,
     vision: data?.vision ?? s.vision,
     achievements: data?.achievements ?? s.achievements,
+    joinEmail: normalizeEmail(data?.joinEmail ?? s.joinEmail, SITE.email),
   };
 }
 
