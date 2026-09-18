@@ -82,9 +82,6 @@ export function Footer() {
             <Link href="/#find-us" className="hover:underline">
               Find us
             </Link>
-            <Link href="/admin" className="hover:underline">
-              Admin
-            </Link>
           </div>
         </div>
       </div>
