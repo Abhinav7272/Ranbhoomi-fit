@@ -36,6 +36,17 @@ export const metadata: Metadata = {
   },
   description,
   metadataBase: new URL(siteUrl()),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title,
     description,
@@ -56,6 +67,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${display.variable} ${serif.variable}`}>
+      <head>
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+      </head>
       <body className="bg-plum text-cream antialiased">
         <Script id="start-at-top" strategy="beforeInteractive">
           {`(function () {
