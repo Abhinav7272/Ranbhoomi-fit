@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  generateEtags: false,
   async headers() {
     const noindex = { key: "X-Robots-Tag", value: "noindex, nofollow" };
     return [
