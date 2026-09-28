@@ -18,7 +18,7 @@ export const SITE = {
 } as const;
 
 export function siteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "https://ranbhoomi.com").replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL || "https://www.ranbhoomi.fit").replace(/\/$/, "");
 }
 
 export const telHref = `tel:${SITE.phone}`;
