@@ -17,6 +17,10 @@ export const SITE = {
   mapsLink: "https://maps.google.com/?q=Ranbhoomi+Fitness+Club+RFC+Kirsali+Dehradun",
 } as const;
 
+export function siteUrl() {
+  return (process.env.NEXT_PUBLIC_SITE_URL || "https://ranbhoomi.com").replace(/\/$/, "");
+}
+
 export const telHref = `tel:${SITE.phone}`;
 export const waHref = `https://wa.me/${SITE.phone.replace("+", "")}`;
 export const mailHref = `mailto:${SITE.email}`;

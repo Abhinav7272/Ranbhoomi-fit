@@ -9,6 +9,11 @@ import { Highlights } from "@/components/highlights";
 import { HomeTimings } from "@/components/home-timings";
 import { Story } from "@/components/story";
 import { getSiteData } from "@/lib/store";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Bricolage_Grotesque, Instrument_Sans, Instrument_Serif } from "next/font/google";
-import { SITE } from "@/lib/site";
+import { SITE, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const sans = Instrument_Sans({
@@ -25,18 +25,25 @@ const serif = Instrument_Serif({
   display: "swap",
 });
 
+const title = "CrossFit, Hyrox & Gym in Dehradun | Ranbhoomi";
+const description =
+  "Ranbhoomi Fitness Club in Kirsali, Dehradun. CrossFit, Hyrox, calisthenics, gymnastics, Zumba, and yoga. Book your first class.";
+
 export const metadata: Metadata = {
   title: {
-    default: `${SITE.name} | Dehradun`,
+    default: title,
     template: `%s | ${SITE.name}`,
   },
-  description:
-    "Dehradun's only one of a kind fitness box. Not a gym. A community. CrossFit, calisthenics, gymnastics, Zumba, Hyrox, and yoga in Kirsali, Dehradun.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3010"),
+  description,
+  metadataBase: new URL(siteUrl()),
   openGraph: {
-    title: `${SITE.name} | Dehradun`,
-    description: "Dehradun's only one of a kind fitness box. Not a gym. A community. Win the battle within.",
-    images: ["/images/hero-gym.png"],
+    title,
+    description,
+    url: "/",
+    siteName: SITE.name,
+    locale: "en_IN",
+    type: "website",
+    images: ["/images/hero-ranbhoomi-cartoon-wide.png"],
   },
 };
 
