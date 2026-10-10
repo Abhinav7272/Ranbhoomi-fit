@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { siteUrl } from "@/lib/site";
 
 const COOKIE = "rfc_admin";
 
@@ -10,6 +11,26 @@ function secretKey() {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (pathname === "/sitemap.xml") {
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${siteUrl()}/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+</urlset>
+`;
+    return new NextResponse(req.method === "HEAD" ? null : xml, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/xml; charset=UTF-8",
+        "Cache-Control": "public, max-age=3600",
+        "Content-Length": String(new TextEncoder().encode(xml).length),
+      },
+    });
+  }
+
   if (pathname === "/admin/login") return NextResponse.next();
 
   const token = req.cookies.get(COOKIE)?.value;
@@ -28,5 +49,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/sitemap.xml", "/admin", "/admin/:path*"],
 };
