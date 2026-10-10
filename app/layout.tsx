@@ -50,7 +50,6 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: "/",
     siteName: SITE.name,
     locale: "en_IN",
     type: "website",
@@ -68,6 +67,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${sans.variable} ${display.variable} ${serif.variable}`}>
       <head>
+        <link rel="canonical" href={`${siteUrl()}/`} />
+        <meta property="og:url" content={`${siteUrl()}/`} />
         <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
       </head>
       <body className="bg-plum text-cream antialiased">

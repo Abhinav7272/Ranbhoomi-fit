@@ -6,7 +6,7 @@ const data = {
   name: SITE.name,
   description:
     "CrossFit, Hyrox, calisthenics, gymnastics, Zumba, and yoga in Kirsali, Dehradun.",
-  url: siteUrl(),
+  url: `${siteUrl()}/`,
   telephone: SITE.phone,
   email: SITE.email,
   image: `${siteUrl()}/images/hero-ranbhoomi-cartoon-wide.png`,
