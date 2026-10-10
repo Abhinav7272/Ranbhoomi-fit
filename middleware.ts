@@ -18,25 +18,15 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 `;
 
-const SITEMAP_GZIP = Uint8Array.from(
-  atob(
-    "H4sIAAAAAAAC/y1OSw6DIBDdewrCXgZdNG2juPME7QGoUiURxjC09vgFQzLJm3m/TDf83Ma+JpBF3/NGSM6Mn3C2fun58zHWVz6oqvuEjUxkyeyp52uM+x3gOA5BNhqndxIYFqBpTQdBIUGKG1cVYzmeMW0bTirHqeSD9q8V0VnxthE6yHpxaooOZ9XK9lI3Mk1SC5c74Sw9Ib2mqj/6WNnlywAAAA==",
-  ),
-  (char) => char.charCodeAt(0),
-);
-
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname === "/sitemap.xml") {
-    const accept = req.headers.get("accept-encoding") || "";
-    const compressed = /\bgzip\b|\bbr\b/.test(accept);
-    return new NextResponse(compressed ? SITEMAP_GZIP : SITEMAP, {
+    return new NextResponse(SITEMAP, {
       status: 200,
       headers: {
         "Content-Type": "text/xml; charset=UTF-8",
-        "Cache-Control": "public, max-age=3600",
-        ...(compressed ? { "Content-Encoding": "gzip" } : {}),
+        "Cache-Control": "no-store",
       },
     });
   }
