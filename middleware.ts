@@ -9,11 +9,7 @@ function secretKey() {
   return new TextEncoder().encode(secret.padEnd(32, "0").slice(0, 64));
 }
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-
-  if (pathname === "/sitemap.xml") {
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${siteUrl()}/</loc>
@@ -21,14 +17,24 @@ export async function middleware(req: NextRequest) {
   </url>
 </urlset>
 `;
-    return new NextResponse(xml, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/xml; charset=UTF-8",
-        "Cache-Control": "public, max-age=3600, no-transform",
-        "Content-Encoding": "identity",
-      },
+
+async function gzip(text: string) {
+  const stream = new Blob([text]).stream().pipeThrough(new CompressionStream("gzip"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname === "/sitemap.xml") {
+    const accept = req.headers.get("accept-encoding") || "";
+    const body = /\bgzip\b|\bbr\b/.test(accept) ? await gzip(SITEMAP) : SITEMAP;
+    const headers = new Headers({
+      "Content-Type": "text/xml; charset=UTF-8",
+      "Cache-Control": "public, max-age=3600",
     });
+    if (typeof body !== "string") headers.set("Content-Encoding", "gzip");
+    return new NextResponse(body, { status: 200, headers });
   }
 
   if (pathname === "/admin/login") return NextResponse.next();
