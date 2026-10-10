@@ -9,17 +9,17 @@ function secretKey() {
   return new TextEncoder().encode(secret.padEnd(32, "0").slice(0, 64));
 }
 
-function crawlFile(body: string, contentType: string) {
-  return new NextResponse(body, {
-    status: 200,
-    headers: {
-      "Content-Type": contentType,
-      "Cache-Control": "no-store",
-      "CDN-Cache-Control": "no-store",
-      "Vercel-CDN-Cache-Control": "no-store",
-      "X-Content-Type-Options": "nosniff",
-    },
+function crawlFile(req: NextRequest, body: string, contentType: string) {
+  const headers = new Headers({
+    "Content-Type": contentType,
+    "Cache-Control": "public, max-age=3600",
+    "Content-Length": String(new TextEncoder().encode(body).length),
+    "X-Content-Type-Options": "nosniff",
   });
+  if (req.method === "HEAD") {
+    return new NextResponse(null, { status: 200, headers });
+  }
+  return new NextResponse(body, { status: 200, headers });
 }
 
 export async function middleware(req: NextRequest) {
@@ -36,7 +36,7 @@ export async function middleware(req: NextRequest) {
   </url>
 </urlset>
 `;
-    return crawlFile(xml, "application/xml; charset=utf-8");
+    return crawlFile(req, xml, "application/xml; charset=utf-8");
   }
 
   if (pathname === "/robots.txt") {
@@ -49,7 +49,7 @@ Disallow: /api/
 
 Sitemap: ${origin}/sitemap.xml
 `;
-    return crawlFile(text, "text/plain; charset=utf-8");
+    return crawlFile(req, text, "text/plain; charset=utf-8");
   }
 
   if (pathname === "/admin/login") return NextResponse.next();
