@@ -18,23 +18,27 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 `;
 
-async function gzip(text: string) {
-  const stream = new Blob([text]).stream().pipeThrough(new CompressionStream("gzip"));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
-}
+const SITEMAP_GZIP = Uint8Array.from(
+  atob(
+    "H4sIAAAAAAAC/y1OSw6DIBDdewrCXgZdNG2juPME7QGoUiURxjC09vgFQzLJm3m/TDf83Ma+JpBF3/NGSM6Mn3C2fun58zHWVz6oqvuEjUxkyeyp52uM+x3gOA5BNhqndxIYFqBpTQdBIUGKG1cVYzmeMW0bTirHqeSD9q8V0VnxthE6yHpxaooOZ9XK9lI3Mk1SC5c74Sw9Ib2mqj/6WNnlywAAAA==",
+  ),
+  (char) => char.charCodeAt(0),
+);
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname === "/sitemap.xml") {
     const accept = req.headers.get("accept-encoding") || "";
-    const body = /\bgzip\b|\bbr\b/.test(accept) ? await gzip(SITEMAP) : SITEMAP;
-    const headers = new Headers({
-      "Content-Type": "text/xml; charset=UTF-8",
-      "Cache-Control": "public, max-age=3600",
+    const compressed = /\bgzip\b|\bbr\b/.test(accept);
+    return new NextResponse(compressed ? SITEMAP_GZIP : SITEMAP, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/xml; charset=UTF-8",
+        "Cache-Control": "public, max-age=3600",
+        ...(compressed ? { "Content-Encoding": "gzip" } : {}),
+      },
     });
-    if (typeof body !== "string") headers.set("Content-Encoding", "gzip");
-    return new NextResponse(body, { status: 200, headers });
   }
 
   if (pathname === "/admin/login") return NextResponse.next();
