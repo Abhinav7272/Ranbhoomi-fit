@@ -21,12 +21,12 @@ export async function middleware(req: NextRequest) {
   </url>
 </urlset>
 `;
-    return new NextResponse(req.method === "HEAD" ? null : xml, {
+    return new NextResponse(xml, {
       status: 200,
       headers: {
         "Content-Type": "text/xml; charset=UTF-8",
-        "Cache-Control": "public, max-age=3600",
-        "Content-Length": String(new TextEncoder().encode(xml).length),
+        "Cache-Control": "public, max-age=3600, no-transform",
+        "Content-Encoding": "identity",
       },
     });
   }
