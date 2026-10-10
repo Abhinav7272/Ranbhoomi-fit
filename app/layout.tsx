@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Bricolage_Grotesque, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { SITE, siteUrl } from "@/lib/site";
@@ -63,12 +64,15 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const path = (await headers()).get("x-rfc-path") || "/";
+  const canonical = path === "/" ? `${siteUrl()}/` : `${siteUrl()}${path}`;
+
   return (
     <html lang="en" className={`${sans.variable} ${display.variable} ${serif.variable}`}>
       <head>
-        <link rel="canonical" href={`${siteUrl()}/`} />
-        <meta property="og:url" content={`${siteUrl()}/`} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:url" content={canonical} />
         <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
       </head>
       <body className="bg-plum text-cream antialiased">

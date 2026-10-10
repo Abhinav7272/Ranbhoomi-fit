@@ -15,11 +15,23 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <loc>${siteUrl()}/</loc>
     <lastmod>2026-10-10</lastmod>
   </url>
+  <url>
+    <loc>${siteUrl()}/about</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
 </urlset>
 `;
 
+function withPath(req: NextRequest) {
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-rfc-path", req.nextUrl.pathname);
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (pathname === "/" || pathname === "/about") return withPath(req);
 
   if (pathname === "/sitemap.xml") {
     return new NextResponse(SITEMAP, {
@@ -49,5 +61,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/sitemap.xml", "/admin", "/admin/:path*"],
+  matcher: ["/", "/about", "/sitemap.xml", "/admin", "/admin/:path*"],
 };
