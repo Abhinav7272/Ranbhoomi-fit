@@ -57,6 +57,14 @@ export type EventPerk = {
   label: string;
 };
 
+export type EventFormField = {
+  id: string;
+  label: string;
+  type: "text" | "select";
+  options: string[];
+  required: boolean;
+};
+
 export type SiteEvent = {
   id: string;
   title: string;
@@ -67,6 +75,7 @@ export type SiteEvent = {
   bannerUrl: string;
   categories: EventCategory[];
   perks: EventPerk[];
+  formFields: EventFormField[];
   merchNote: string;
   ctaLabel: string;
   registrationOpen: boolean;

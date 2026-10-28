@@ -6,6 +6,7 @@ import type {
   ClassGroup,
   ClassSlot,
   EventCategory,
+  EventFormField,
   EventPerk,
   GalleryImage,
   SiteData,
@@ -104,6 +105,24 @@ function normalizePerks(items: EventPerk[] | undefined): EventPerk[] {
     .map((item) => ({ id: item.id, label: String(item.label).trim() }));
 }
 
+function normalizeFormFields(items: EventFormField[] | undefined): EventFormField[] {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter((item) => item && item.id && String(item.label ?? "").trim())
+    .map((item) => {
+      const options = Array.isArray(item.options)
+        ? item.options.map((option) => String(option ?? "").trim()).filter(Boolean).slice(0, 24)
+        : [];
+      return {
+        id: item.id,
+        label: String(item.label).trim(),
+        type: item.type === "select" || options.length ? "select" : "text",
+        options,
+        required: item.required !== false,
+      };
+    });
+}
+
 function normalizeEvents(items: SiteEvent[] | undefined, fallback: SiteEvent[]): SiteEvent[] {
   const source = Array.isArray(items) ? items : fallback;
   return source
@@ -118,6 +137,7 @@ function normalizeEvents(items: SiteEvent[] | undefined, fallback: SiteEvent[]):
       bannerUrl: String(item.bannerUrl ?? "").trim(),
       categories: normalizeCategories(item.categories),
       perks: normalizePerks(item.perks),
+      formFields: normalizeFormFields(item.formFields),
       merchNote: String(item.merchNote ?? "").trim(),
       ctaLabel: String(item.ctaLabel ?? "").trim() || "Register now",
       registrationOpen: item.registrationOpen !== false,

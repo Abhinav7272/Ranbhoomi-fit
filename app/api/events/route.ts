@@ -7,7 +7,7 @@ import {
   saveSiteData,
   saveUpload,
 } from "@/lib/store";
-import type { EventCategory, EventPerk, SiteEvent } from "@/lib/types";
+import type { EventCategory, EventFormField, EventPerk, SiteEvent } from "@/lib/types";
 
 const ALLOWED = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 const MAX = 8 * 1024 * 1024;
@@ -19,9 +19,16 @@ function clean(value: FormDataEntryValue | null, max: number) {
     .slice(0, max);
 }
 
+function cleanMultiline(value: FormDataEntryValue | null, max: number) {
+  return String(value ?? "")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+    .trim()
+    .slice(0, max);
+}
+
 function parseList(raw: string, kind: "category" | "perk") {
   return raw
-    .split(/\n|,/)
+    .split(/\r?\n|,|;|\|/)
     .map((part) => part.trim())
     .filter(Boolean)
     .slice(0, 12)
@@ -30,6 +37,40 @@ function parseList(raw: string, kind: "category" | "perk") {
         ? ({ id: newId(), label } as EventCategory)
         : ({ id: newId(), label } as EventPerk),
     );
+}
+
+/** One field per line. Examples:
+ *  T-shirt size: XS, S, M, L, XL, XXL
+ *  City?
+ *  Blood group
+ * A trailing ? makes the field optional. Options after : make it a select.
+ */
+function parseFormFields(raw: string): EventFormField[] {
+  return raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 16)
+    .map((line) => {
+      const optional = line.endsWith("?");
+      const cleaned = optional ? line.slice(0, -1).trim() : line;
+      const [labelPart, optionsPart] = cleaned.split(":").map((part) => part.trim());
+      const label = labelPart || "Field";
+      const options = optionsPart
+        ? optionsPart
+            .split(/,|;|\|/)
+            .map((part) => part.trim())
+            .filter(Boolean)
+            .slice(0, 24)
+        : [];
+      return {
+        id: newId(),
+        label,
+        type: options.length ? ("select" as const) : ("text" as const),
+        options,
+        required: !optional,
+      };
+    });
 }
 
 function bool(value: FormDataEntryValue | null, fallback = false) {
@@ -56,6 +97,7 @@ export async function POST(req: Request) {
   const ctaLabel = clean(form.get("ctaLabel"), 40) || "Register now";
   const categories = parseList(clean(form.get("categories"), 400), "category");
   const perks = parseList(clean(form.get("perks"), 400), "perk");
+  const formFields = parseFormFields(cleanMultiline(form.get("formFields"), 1200));
   const file = form.get("file");
 
   if (!title) return NextResponse.json({ error: "Add an event title" }, { status: 400 });
@@ -88,6 +130,7 @@ export async function POST(req: Request) {
       bannerUrl,
       categories,
       perks,
+      formFields,
       merchNote,
       ctaLabel,
       registrationOpen: bool(form.get("registrationOpen"), true),
@@ -124,6 +167,7 @@ export async function PATCH(req: Request) {
   const ctaLabel = clean(form.get("ctaLabel"), 40);
   const categoriesRaw = form.get("categories");
   const perksRaw = form.get("perks");
+  const formFieldsRaw = form.get("formFields");
   const file = form.get("file");
 
   if (title) event.title = title;
@@ -138,6 +182,9 @@ export async function PATCH(req: Request) {
   }
   if (typeof perksRaw === "string") {
     event.perks = parseList(clean(perksRaw, 400), "perk");
+  }
+  if (typeof formFieldsRaw === "string") {
+    event.formFields = parseFormFields(cleanMultiline(formFieldsRaw, 1200));
   }
   if (form.has("registrationOpen")) event.registrationOpen = bool(form.get("registrationOpen"));
   if (form.has("published")) event.published = bool(form.get("published"));

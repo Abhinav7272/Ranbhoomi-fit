@@ -33,10 +33,26 @@
       "note": "",
       "eitherOr": false,
       "slots": [
-        { "id": "am-615", "time": "6:15 AM", "kind": "morning" },
-        { "id": "am-730", "time": "7:30 AM", "kind": "morning" },
-        { "id": "am-900", "time": "9:00 AM", "kind": "morning" },
-        { "id": "pm-700", "time": "7:00 PM", "kind": "evening" }
+        {
+          "id": "am-615",
+          "time": "6:15 AM",
+          "kind": "morning"
+        },
+        {
+          "id": "am-730",
+          "time": "7:30 AM",
+          "kind": "morning"
+        },
+        {
+          "id": "am-900",
+          "time": "9:00 AM",
+          "kind": "morning"
+        },
+        {
+          "id": "pm-700",
+          "time": "7:00 PM",
+          "kind": "evening"
+        }
       ]
     },
     {
@@ -46,8 +62,16 @@
       "note": "One batch only",
       "eitherOr": true,
       "slots": [
-        { "id": "sat-800", "time": "8:00 AM", "kind": "morning" },
-        { "id": "sat-900", "time": "9:00 AM", "kind": "morning" }
+        {
+          "id": "sat-800",
+          "time": "8:00 AM",
+          "kind": "morning"
+        },
+        {
+          "id": "sat-900",
+          "time": "9:00 AM",
+          "kind": "morning"
+        }
       ]
     },
     {
@@ -57,27 +81,101 @@
       "note": "",
       "eitherOr": false,
       "slots": [
-        { "id": "kids-600", "time": "6:00 - 7:00 PM", "kind": "evening" }
+        {
+          "id": "kids-600",
+          "time": "6:00 - 7:00 PM",
+          "kind": "evening"
+        }
       ]
     }
   ],
   "gallery": [
-    { "id": "g-crossfit", "url": "/images/crossfit.png", "alt": "Coach and athletes in the box", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-calisthenics", "url": "/images/calisthenics.png", "alt": "Pull-up on the rig", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-gymnastics", "url": "/images/gymnastics.png", "alt": "Rings hold", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-hyrox", "url": "/images/hyrox.png", "alt": "Sled push on turf", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-zumba", "url": "/images/zumba.png", "alt": "Dance class", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-yoga", "url": "/images/yoga.png", "alt": "Yoga facing the hills", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-interior", "url": "/images/box-interior.png", "alt": "Inside the Ranbhoomi box", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "g-hero", "url": "/images/hero-gym.png", "alt": "The floor during a mixed session", "createdAt": "2026-09-01T00:00:00.000Z" }
+    {
+      "id": "g-crossfit",
+      "url": "/images/crossfit.png",
+      "alt": "Coach and athletes in the box",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-calisthenics",
+      "url": "/images/calisthenics.png",
+      "alt": "Pull-up on the rig",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-gymnastics",
+      "url": "/images/gymnastics.png",
+      "alt": "Rings hold",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-hyrox",
+      "url": "/images/hyrox.png",
+      "alt": "Sled push on turf",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-zumba",
+      "url": "/images/zumba.png",
+      "alt": "Dance class",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-yoga",
+      "url": "/images/yoga.png",
+      "alt": "Yoga facing the hills",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-interior",
+      "url": "/images/box-interior.png",
+      "alt": "Inside the Ranbhoomi box",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "g-hero",
+      "url": "/images/hero-gym.png",
+      "alt": "The floor during a mixed session",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    }
   ],
   "highlights": [
-    { "id": "h-crossfit", "url": "/images/crossfit.png", "alt": "Coach and athletes in the box", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "h-hyrox", "url": "/images/hyrox.png", "alt": "Sled push on turf", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "h-calisthenics", "url": "/images/calisthenics.png", "alt": "Pull-up on the rig", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "h-gymnastics", "url": "/images/gymnastics.png", "alt": "Rings hold", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "h-zumba", "url": "/images/zumba.png", "alt": "Dance class", "createdAt": "2026-09-01T00:00:00.000Z" },
-    { "id": "h-yoga", "url": "/images/yoga.png", "alt": "Yoga facing the hills", "createdAt": "2026-09-01T00:00:00.000Z" }
+    {
+      "id": "h-crossfit",
+      "url": "/images/crossfit.png",
+      "alt": "Coach and athletes in the box",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "h-hyrox",
+      "url": "/images/hyrox.png",
+      "alt": "Sled push on turf",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "h-calisthenics",
+      "url": "/images/calisthenics.png",
+      "alt": "Pull-up on the rig",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "h-gymnastics",
+      "url": "/images/gymnastics.png",
+      "alt": "Rings hold",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "h-zumba",
+      "url": "/images/zumba.png",
+      "alt": "Dance class",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "h-yoga",
+      "url": "/images/yoga.png",
+      "alt": "Yoga facing the hills",
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    }
   ],
   "coaches": [
     {
@@ -95,8 +193,6 @@
     "title": "Our vision",
     "body": "To create a vibrant community where fitness enthusiasts come together to inspire and motivate one another. We aim to provide expert coaching and programs for every fitness level, and to make training accessible, enjoyable, and sustainable. Together we help people reach their personal fitness goals and keep a lifelong love of movement."
   },
-  "joinEmail": "Ranbhoomi.fit@gmail.com",
-  "events": [],
   "achievements": [
     {
       "id": "a-box",
@@ -117,6 +213,80 @@
       "id": "a-community",
       "title": "Train with people, not playlists",
       "body": "Same class, scaled for the room. You leave knowing the names around you."
+    }
+  ],
+  "joinEmail": "Ranbhoomi.fit@gmail.com",
+  "events": [
+    {
+      "id": "mvrs5zjq-1kxwh2",
+      "title": "RFC Half Marathon 2026",
+      "slogan": "Run Together. Get Stronger.",
+      "date": "29th November 2026",
+      "time": "6:00 AM",
+      "venue": "RFC Grounds, Dehradun",
+      "bannerUrl": "/images/rfc-half-marathon-2026-banner.jpg",
+      "categories": [
+        {
+          "id": "cat-5k",
+          "label": "5 KM"
+        },
+        {
+          "id": "cat-10k",
+          "label": "10 KM"
+        },
+        {
+          "id": "cat-21k",
+          "label": "21 KM"
+        }
+      ],
+      "perks": [
+        {
+          "id": "perk-prizes",
+          "label": "Prizes for winners"
+        },
+        {
+          "id": "perk-medals",
+          "label": "Finisher medals"
+        },
+        {
+          "id": "perk-refreshments",
+          "label": "Refreshments"
+        },
+        {
+          "id": "perk-physio",
+          "label": "Physio support"
+        },
+        {
+          "id": "perk-media",
+          "label": "Professional photos & video"
+        },
+        {
+          "id": "perk-fun",
+          "label": "Fun community vibe"
+        }
+      ],
+      "formFields": [
+        {
+          "id": "field-tshirt",
+          "label": "T-shirt size",
+          "type": "select",
+          "options": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+          ],
+          "required": true
+        }
+      ],
+      "merchNote": "Event T-shirt: Run Further Beyond Limits",
+      "ctaLabel": "Register now",
+      "registrationOpen": true,
+      "published": true,
+      "featured": true,
+      "createdAt": "2026-10-28T07:15:57.878Z"
     }
   ]
 }

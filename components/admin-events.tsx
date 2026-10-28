@@ -4,15 +4,29 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { Trash } from "@phosphor-icons/react";
 import { PhotoPick } from "@/components/photo-pick";
-import type { SiteEvent } from "@/lib/types";
+import type { EventFormField, SiteEvent } from "@/lib/types";
 
 type Run = (fn: () => Promise<Response>) => Promise<void>;
 
 const input =
   "mt-2 w-full rounded-2xl border border-line bg-plum-mid px-4 py-3 text-sm text-cream outline-none";
 
+const DEFAULT_FORM_FIELDS = "T-shirt size: XS, S, M, L, XL, XXL";
+
 function labels(items: { label: string }[]) {
-  return items.map((item) => item.label).join("\n");
+  return items.map((item) => item.label).join(", ");
+}
+
+function formFieldsText(fields: EventFormField[]) {
+  return fields
+    .map((field) => {
+      const optional = field.required ? "" : "?";
+      if (field.type === "select" && field.options.length) {
+        return `${field.label}${optional}: ${field.options.join(", ")}`;
+      }
+      return `${field.label}${optional}`;
+    })
+    .join("\n");
 }
 
 export function EventsPanel({
@@ -29,9 +43,12 @@ export function EventsPanel({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [venue, setVenue] = useState("");
-  const [categories, setCategories] = useState("5 KM\n10 KM\n21 KM");
-  const [perks, setPerks] = useState("Finisher medals\nRefreshments\nPhysio support");
+  const [categories, setCategories] = useState("5 KM, 10 KM, 21 KM");
+  const [perks, setPerks] = useState(
+    "Prizes for winners, Finisher medals, Refreshments, Physio support, Professional photos & video, Fun community vibe",
+  );
   const [merchNote, setMerchNote] = useState("");
+  const [formFields, setFormFields] = useState(DEFAULT_FORM_FIELDS);
   const [ctaLabel, setCtaLabel] = useState("Register now");
   const [published, setPublished] = useState(false);
   const [featured, setFeatured] = useState(false);
@@ -61,6 +78,7 @@ export function EventsPanel({
           form.append("categories", categories);
           form.append("perks", perks);
           form.append("merchNote", merchNote);
+          form.append("formFields", formFields);
           form.append("ctaLabel", ctaLabel);
           form.append("published", String(published));
           form.append("featured", String(featured));
@@ -73,6 +91,7 @@ export function EventsPanel({
             setTime("");
             setVenue("");
             setMerchNote("");
+            setFormFields(DEFAULT_FORM_FIELDS);
             setCtaLabel("Register now");
             setPublished(false);
             setFeatured(false);
@@ -109,7 +128,7 @@ export function EventsPanel({
             value={categories}
             onChange={(e) => setCategories(e.target.value)}
             className={`${input} min-h-24`}
-            placeholder="One per line"
+            placeholder="5 KM, 10 KM, 21 KM"
           />
         </label>
         <label className="text-sm text-cream-dim">
@@ -118,12 +137,24 @@ export function EventsPanel({
             value={perks}
             onChange={(e) => setPerks(e.target.value)}
             className={`${input} min-h-24`}
-            placeholder="One per line"
+            placeholder="Medals, Refreshments, Physio"
           />
         </label>
         <label className="text-sm text-cream-dim">
           Merch note
           <input value={merchNote} onChange={(e) => setMerchNote(e.target.value)} className={input} />
+        </label>
+        <label className="text-sm text-cream-dim">
+          Extra form columns
+          <textarea
+            value={formFields}
+            onChange={(e) => setFormFields(e.target.value)}
+            className={`${input} min-h-28`}
+            placeholder={"T-shirt size: XS, S, M, L, XL, XXL\nCity?\nBlood group"}
+          />
+          <span className="mt-1 block text-xs text-cream/50">
+            One field per line. Add options after a colon for a dropdown. End with ? to make it optional.
+          </span>
         </label>
         <label className="text-sm text-cream-dim">
           Button label
@@ -192,6 +223,7 @@ function EventEditor({
   const [categories, setCategories] = useState(labels(item.categories));
   const [perks, setPerks] = useState(labels(item.perks));
   const [merchNote, setMerchNote] = useState(item.merchNote);
+  const [formFields, setFormFields] = useState(formFieldsText(item.formFields || []));
   const [ctaLabel, setCtaLabel] = useState(item.ctaLabel);
   const [published, setPublished] = useState(item.published);
   const [featured, setFeatured] = useState(item.featured);
@@ -207,6 +239,7 @@ function EventEditor({
     setCategories(labels(item.categories));
     setPerks(labels(item.perks));
     setMerchNote(item.merchNote);
+    setFormFields(formFieldsText(item.formFields || []));
     setCtaLabel(item.ctaLabel);
     setPublished(item.published);
     setFeatured(item.featured);
@@ -278,6 +311,18 @@ function EventEditor({
           <input value={merchNote} onChange={(e) => setMerchNote(e.target.value)} className={input} />
         </label>
         <label className="text-sm text-cream-dim">
+          Extra form columns
+          <textarea
+            value={formFields}
+            onChange={(e) => setFormFields(e.target.value)}
+            className={`${input} min-h-28`}
+            placeholder={"T-shirt size: XS, S, M, L, XL, XXL\nCity?"}
+          />
+          <span className="mt-1 block text-xs text-cream/50">
+            One field per line. Add options after a colon for a dropdown. End with ? to make it optional.
+          </span>
+        </label>
+        <label className="text-sm text-cream-dim">
           Button label
           <input value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} className={input} />
         </label>
@@ -316,6 +361,7 @@ function EventEditor({
               form.append("categories", categories);
               form.append("perks", perks);
               form.append("merchNote", merchNote);
+              form.append("formFields", formFields);
               form.append("ctaLabel", ctaLabel || "Register now");
               form.append("published", String(published));
               form.append("featured", String(featured));

@@ -47,10 +47,13 @@ export function HomeEvents({ event }: { event: SiteEvent | null }) {
                     {event.categories.map((item) => item.label).join(" · ")}
                   </p>
                 ) : null}
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Button href={`/events/${event.id}`}>{event.ctaLabel || "Register now"}</Button>
-                  <Link href="/events" className="self-center text-sm text-cream-dim underline">
+                  <Link href="/events" className="text-sm text-cream-dim underline">
                     All events
+                  </Link>
+                  <Link href="/" className="text-sm text-cream-dim underline">
+                    Home
                   </Link>
                 </div>
               </div>

@@ -49,6 +49,7 @@ export async function sendJoinMail(to: string, input: JoinBooking) {
 
 export async function sendEventRegistrationMail(to: string, input: EventRegistration) {
   const subject = `Event registration — ${input.eventTitle} — ${input.name}`;
+  const extras = Object.entries(input.extras).map(([key, value]) => `${key}: ${value || "—"}`);
   const text = [
     "Event registration",
     "",
@@ -59,6 +60,7 @@ export async function sendEventRegistrationMail(to: string, input: EventRegistra
     `Age: ${input.age}`,
     `Email: ${input.email || "—"}`,
     `Emergency contact: ${input.emergency || "—"}`,
+    ...extras,
     `Notes: ${input.notes || "—"}`,
     "",
     "Confirm this registration with them after you receive the request.",

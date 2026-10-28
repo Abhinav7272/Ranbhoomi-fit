@@ -33,6 +33,10 @@ export async function POST(req: Request) {
   const emergency = clean(body.emergency, 80);
   const notes = clean(body.notes, 300);
   const category = clean(body.category, 80);
+  const extrasRaw =
+    body.extras && typeof body.extras === "object" && !Array.isArray(body.extras)
+      ? (body.extras as Record<string, unknown>)
+      : {};
 
   if (!eventId) {
     return NextResponse.json({ error: "Missing event" }, { status: 400 });
@@ -70,6 +74,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Choose a category" }, { status: 400 });
     }
 
+    const extras: Record<string, string> = {};
+    for (const field of event.formFields) {
+      const value = clean(extrasRaw[field.id] ?? extrasRaw[field.label], 120);
+      if (field.required && !value) {
+        return NextResponse.json({ error: `Add ${field.label}` }, { status: 400 });
+      }
+      if (field.type === "select" && value && !field.options.includes(value)) {
+        return NextResponse.json({ error: `Choose a valid ${field.label}` }, { status: 400 });
+      }
+      extras[field.label] = value;
+    }
+
     const payload = {
       eventTitle: event.title,
       category: categoryLabel || "General",
@@ -79,6 +95,7 @@ export async function POST(req: Request) {
       email,
       emergency,
       notes,
+      extras,
     };
 
     if (process.env.RESEND_API_KEY) {

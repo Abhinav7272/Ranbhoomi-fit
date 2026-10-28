@@ -18,7 +18,12 @@ export default async function EventsPage() {
   return (
     <div className="px-4 pb-16 pt-24 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1400px]">
-        <p className="text-sm uppercase tracking-[0.18em] text-cream/70">Ranbhoomi Fitness Club</p>
+        <div className="flex flex-wrap items-center gap-4">
+          <p className="text-sm uppercase tracking-[0.18em] text-cream/70">Ranbhoomi Fitness Club</p>
+          <Link href="/" className="text-sm text-cream-dim underline">
+            Home
+          </Link>
+        </div>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-cream sm:text-4xl">Events</h1>
         <p className="mt-3 max-w-[54ch] text-sm text-cream-dim">
           Race days, open events, and community days at the box. Open an event to see the banner and

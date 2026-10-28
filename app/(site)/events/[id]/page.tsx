@@ -30,9 +30,14 @@ export default async function EventDetailPage({ params }: Props) {
   return (
     <div className="pb-16 pt-24">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <Link href="/events" className="text-sm text-cream-dim underline">
-          All events
-        </Link>
+        <div className="flex flex-wrap items-center gap-4">
+          <Link href="/events" className="text-sm text-cream-dim underline">
+            All events
+          </Link>
+          <Link href="/" className="text-sm text-cream-dim underline">
+            Home
+          </Link>
+        </div>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-cream sm:text-5xl">
           {event.title}
         </h1>

@@ -18,6 +18,7 @@ export type EventRegistration = {
   email: string;
   emergency: string;
   notes: string;
+  extras: Record<string, string>;
 };
 
 export function joinSubject(name: string) {
@@ -50,6 +51,9 @@ export async function sendEventViaFormsubmit(inbox: string, input: EventRegistra
       email: input.email || "—",
       emergency_contact: input.emergency || "—",
       notes: input.notes || "—",
+      ...Object.fromEntries(
+        Object.entries(input.extras).map(([key, value]) => [key.replace(/\s+/g, "_").toLowerCase(), value || "—"]),
+      ),
     }),
   });
   const data = (await res.json().catch(() => null)) as { success?: boolean | string; message?: string } | null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { sendEventViaFormsubmit } from "@/lib/booking";
 import type { SiteEvent } from "@/lib/types";
 import { waHref } from "@/lib/site";
@@ -16,9 +16,14 @@ export function EventRegisterForm({ event }: { event: SiteEvent }) {
   const [emergency, setEmergency] = useState("");
   const [notes, setNotes] = useState("");
   const [category, setCategory] = useState(event.categories[0]?.label || "");
+  const [extras, setExtras] = useState<Record<string, string>>(() =>
+    Object.fromEntries(event.formFields.map((item) => [item.id, item.type === "select" ? item.options[0] || "" : ""])),
+  );
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+
+  const fields = useMemo(() => event.formFields, [event.formFields]);
 
   if (!event.registrationOpen) {
     return <p className="mt-4 text-sm text-cream-dim">Registration is closed for this event.</p>;
@@ -57,6 +62,7 @@ export function EventRegisterForm({ event }: { event: SiteEvent }) {
               emergency,
               notes,
               category,
+              extras,
               website: String(form.get("website") || ""),
             }),
           });
@@ -72,6 +78,7 @@ export function EventRegisterForm({ event }: { event: SiteEvent }) {
               email: string;
               emergency: string;
               notes: string;
+              extras: Record<string, string>;
             };
           } | null;
           if (!res.ok) throw new Error(data?.error || "Could not send. Try WhatsApp.");
@@ -119,6 +126,33 @@ export function EventRegisterForm({ event }: { event: SiteEvent }) {
           </select>
         </label>
       ) : null}
+      {fields.map((item) => (
+        <label key={item.id} className="text-sm text-cream-dim">
+          {item.label}
+          {item.type === "select" ? (
+            <select
+              value={extras[item.id] || ""}
+              onChange={(e) => setExtras((prev) => ({ ...prev, [item.id]: e.target.value }))}
+              className={field}
+              required={item.required}
+            >
+              {!item.required ? <option value="">Choose</option> : null}
+              {item.options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              value={extras[item.id] || ""}
+              onChange={(e) => setExtras((prev) => ({ ...prev, [item.id]: e.target.value }))}
+              className={field}
+              required={item.required}
+            />
+          )}
+        </label>
+      ))}
       <label className="text-sm text-cream-dim">
         Email
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={field} />
