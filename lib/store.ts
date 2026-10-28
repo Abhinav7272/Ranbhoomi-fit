@@ -140,6 +140,9 @@ function normalizeEvents(items: SiteEvent[] | undefined, fallback: SiteEvent[]):
       formFields: normalizeFormFields(item.formFields),
       merchNote: String(item.merchNote ?? "").trim(),
       ctaLabel: String(item.ctaLabel ?? "").trim() || "Register now",
+      successMessage:
+        String(item.successMessage ?? "").trim() ||
+        "Registration is done. We will connect with you soon.",
       registrationOpen: item.registrationOpen !== false,
       published: Boolean(item.published),
       featured: Boolean(item.featured),

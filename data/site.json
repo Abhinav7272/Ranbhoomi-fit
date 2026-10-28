@@ -283,6 +283,7 @@
       ],
       "merchNote": "Event T-shirt: Run Further Beyond Limits",
       "ctaLabel": "Register now",
+      "successMessage": "Registration is done. We will connect with you soon.",
       "registrationOpen": true,
       "published": true,
       "featured": true,

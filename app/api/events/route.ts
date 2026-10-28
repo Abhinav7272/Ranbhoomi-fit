@@ -95,6 +95,9 @@ export async function POST(req: Request) {
   const venue = clean(form.get("venue"), 120);
   const merchNote = clean(form.get("merchNote"), 240);
   const ctaLabel = clean(form.get("ctaLabel"), 40) || "Register now";
+  const successMessage =
+    clean(form.get("successMessage"), 240) ||
+    "Registration is done. We will connect with you soon.";
   const categories = parseList(clean(form.get("categories"), 400), "category");
   const perks = parseList(clean(form.get("perks"), 400), "perk");
   const formFields = parseFormFields(cleanMultiline(form.get("formFields"), 1200));
@@ -133,6 +136,7 @@ export async function POST(req: Request) {
       formFields,
       merchNote,
       ctaLabel,
+      successMessage,
       registrationOpen: bool(form.get("registrationOpen"), true),
       published: bool(form.get("published")),
       featured,
@@ -165,6 +169,7 @@ export async function PATCH(req: Request) {
   const venue = clean(form.get("venue"), 120);
   const merchNote = clean(form.get("merchNote"), 240);
   const ctaLabel = clean(form.get("ctaLabel"), 40);
+  const successMessage = clean(form.get("successMessage"), 240);
   const categoriesRaw = form.get("categories");
   const perksRaw = form.get("perks");
   const formFieldsRaw = form.get("formFields");
@@ -177,6 +182,10 @@ export async function PATCH(req: Request) {
   if (venue || form.has("venue")) event.venue = venue;
   if (merchNote || form.has("merchNote")) event.merchNote = merchNote;
   if (ctaLabel) event.ctaLabel = ctaLabel;
+  if (successMessage || form.has("successMessage")) {
+    event.successMessage =
+      successMessage || "Registration is done. We will connect with you soon.";
+  }
   if (typeof categoriesRaw === "string") {
     event.categories = parseList(clean(categoriesRaw, 400), "category");
   }

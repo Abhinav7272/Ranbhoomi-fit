@@ -78,6 +78,7 @@ export type SiteEvent = {
   formFields: EventFormField[];
   merchNote: string;
   ctaLabel: string;
+  successMessage: string;
   registrationOpen: boolean;
   published: boolean;
   featured: boolean;

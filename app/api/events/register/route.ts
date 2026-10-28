@@ -75,12 +75,13 @@ export async function POST(req: Request) {
     }
 
     const extras: Record<string, string> = {};
-    for (const field of event.formFields) {
+    const formFields = Array.isArray(event.formFields) ? event.formFields : [];
+    for (const field of formFields) {
       const value = clean(extrasRaw[field.id] ?? extrasRaw[field.label], 120);
       if (field.required && !value) {
         return NextResponse.json({ error: `Add ${field.label}` }, { status: 400 });
       }
-      if (field.type === "select" && value && !field.options.includes(value)) {
+      if (field.type === "select" && value && field.options.length && !field.options.includes(value)) {
         return NextResponse.json({ error: `Choose a valid ${field.label}` }, { status: 400 });
       }
       extras[field.label] = value;

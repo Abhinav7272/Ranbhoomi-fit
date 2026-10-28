@@ -50,6 +50,9 @@ export function EventsPanel({
   const [merchNote, setMerchNote] = useState("");
   const [formFields, setFormFields] = useState(DEFAULT_FORM_FIELDS);
   const [ctaLabel, setCtaLabel] = useState("Register now");
+  const [successMessage, setSuccessMessage] = useState(
+    "Registration is done. We will connect with you soon.",
+  );
   const [published, setPublished] = useState(false);
   const [featured, setFeatured] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(true);
@@ -80,6 +83,7 @@ export function EventsPanel({
           form.append("merchNote", merchNote);
           form.append("formFields", formFields);
           form.append("ctaLabel", ctaLabel);
+          form.append("successMessage", successMessage);
           form.append("published", String(published));
           form.append("featured", String(featured));
           form.append("registrationOpen", String(registrationOpen));
@@ -93,6 +97,7 @@ export function EventsPanel({
             setMerchNote("");
             setFormFields(DEFAULT_FORM_FIELDS);
             setCtaLabel("Register now");
+            setSuccessMessage("Registration is done. We will connect with you soon.");
             setPublished(false);
             setFeatured(false);
             setRegistrationOpen(true);
@@ -160,6 +165,15 @@ export function EventsPanel({
           Button label
           <input value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} className={input} />
         </label>
+        <label className="text-sm text-cream-dim">
+          Success message
+          <textarea
+            value={successMessage}
+            onChange={(e) => setSuccessMessage(e.target.value)}
+            className={`${input} min-h-20`}
+            placeholder="Registration is done. We will connect with you soon."
+          />
+        </label>
         <PhotoPick file={file} onFile={setFile} disabled={busy} />
         {preview ? (
           <div className="relative h-40 w-full max-w-xl overflow-hidden rounded-2xl">
@@ -225,6 +239,9 @@ function EventEditor({
   const [merchNote, setMerchNote] = useState(item.merchNote);
   const [formFields, setFormFields] = useState(formFieldsText(item.formFields || []));
   const [ctaLabel, setCtaLabel] = useState(item.ctaLabel);
+  const [successMessage, setSuccessMessage] = useState(
+    item.successMessage || "Registration is done. We will connect with you soon.",
+  );
   const [published, setPublished] = useState(item.published);
   const [featured, setFeatured] = useState(item.featured);
   const [registrationOpen, setRegistrationOpen] = useState(item.registrationOpen);
@@ -241,6 +258,7 @@ function EventEditor({
     setMerchNote(item.merchNote);
     setFormFields(formFieldsText(item.formFields || []));
     setCtaLabel(item.ctaLabel);
+    setSuccessMessage(item.successMessage || "Registration is done. We will connect with you soon.");
     setPublished(item.published);
     setFeatured(item.featured);
     setRegistrationOpen(item.registrationOpen);
@@ -326,6 +344,14 @@ function EventEditor({
           Button label
           <input value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} className={input} />
         </label>
+        <label className="text-sm text-cream-dim">
+          Success message
+          <textarea
+            value={successMessage}
+            onChange={(e) => setSuccessMessage(e.target.value)}
+            className={`${input} min-h-20`}
+          />
+        </label>
         <PhotoPick file={file} onFile={setFile} disabled={busy} />
         <div className="flex flex-wrap gap-4 text-sm text-cream-dim">
           <label className="inline-flex items-center gap-2">
@@ -363,6 +389,10 @@ function EventEditor({
               form.append("merchNote", merchNote);
               form.append("formFields", formFields);
               form.append("ctaLabel", ctaLabel || "Register now");
+              form.append(
+                "successMessage",
+                successMessage || "Registration is done. We will connect with you soon.",
+              );
               form.append("published", String(published));
               form.append("featured", String(featured));
               form.append("registrationOpen", String(registrationOpen));
