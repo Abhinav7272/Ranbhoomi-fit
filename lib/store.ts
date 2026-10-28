@@ -2,7 +2,16 @@ import { unstable_noStore as noStore } from "next/cache";
 import { put, list, del } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
-import type { ClassGroup, ClassSlot, GalleryImage, SiteData, SlotKind } from "./types";
+import type {
+  ClassGroup,
+  ClassSlot,
+  EventCategory,
+  EventPerk,
+  GalleryImage,
+  SiteData,
+  SiteEvent,
+  SlotKind,
+} from "./types";
 import seed from "../data/site.json";
 import { SITE } from "./site";
 
@@ -81,6 +90,43 @@ function normalizeEmail(value: unknown, fallback: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : fallback;
 }
 
+function normalizeCategories(items: EventCategory[] | undefined): EventCategory[] {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter((item) => item && item.id && String(item.label ?? "").trim())
+    .map((item) => ({ id: item.id, label: String(item.label).trim() }));
+}
+
+function normalizePerks(items: EventPerk[] | undefined): EventPerk[] {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter((item) => item && item.id && String(item.label ?? "").trim())
+    .map((item) => ({ id: item.id, label: String(item.label).trim() }));
+}
+
+function normalizeEvents(items: SiteEvent[] | undefined, fallback: SiteEvent[]): SiteEvent[] {
+  const source = Array.isArray(items) ? items : fallback;
+  return source
+    .filter((item) => item && item.id && String(item.title ?? "").trim())
+    .map((item) => ({
+      id: item.id,
+      title: String(item.title ?? "").trim(),
+      slogan: String(item.slogan ?? "").trim(),
+      date: String(item.date ?? "").trim(),
+      time: String(item.time ?? "").trim(),
+      venue: String(item.venue ?? "").trim(),
+      bannerUrl: String(item.bannerUrl ?? "").trim(),
+      categories: normalizeCategories(item.categories),
+      perks: normalizePerks(item.perks),
+      merchNote: String(item.merchNote ?? "").trim(),
+      ctaLabel: String(item.ctaLabel ?? "").trim() || "Register now",
+      registrationOpen: item.registrationOpen !== false,
+      published: Boolean(item.published),
+      featured: Boolean(item.featured),
+      createdAt: item.createdAt || new Date().toISOString(),
+    }));
+}
+
 function normalize(data: Partial<SiteData> | null | undefined): SiteData {
   const s = cloneSeed();
   return {
@@ -93,7 +139,22 @@ function normalize(data: Partial<SiteData> | null | undefined): SiteData {
     vision: data?.vision ?? s.vision,
     achievements: data?.achievements ?? s.achievements,
     joinEmail: normalizeEmail(data?.joinEmail ?? s.joinEmail, SITE.email),
+    events: normalizeEvents(data?.events, s.events ?? []),
   };
+}
+
+export function publishedEvents(events: SiteEvent[]) {
+  return [...events]
+    .filter((event) => event.published)
+    .sort((a, b) => {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      return a.date.localeCompare(b.date) || b.createdAt.localeCompare(a.createdAt);
+    });
+}
+
+export function featuredEvent(events: SiteEvent[]) {
+  const list = publishedEvents(events);
+  return list.find((event) => event.featured) ?? list[0] ?? null;
 }
 
 async function readLocal(): Promise<SiteData> {
@@ -195,7 +256,8 @@ export function imageUrlInUse(data: SiteData, url: string) {
   return (
     data.gallery.some((item) => item.url === url) ||
     data.highlights.some((item) => item.url === url) ||
-    data.coaches.some((item) => item.photoUrl === url)
+    data.coaches.some((item) => item.photoUrl === url) ||
+    data.events.some((item) => item.bannerUrl === url)
   );
 }
 

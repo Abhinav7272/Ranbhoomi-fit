@@ -47,6 +47,34 @@ export type Coach = {
   photoUrl: string;
 };
 
+export type EventCategory = {
+  id: string;
+  label: string;
+};
+
+export type EventPerk = {
+  id: string;
+  label: string;
+};
+
+export type SiteEvent = {
+  id: string;
+  title: string;
+  slogan: string;
+  date: string;
+  time: string;
+  venue: string;
+  bannerUrl: string;
+  categories: EventCategory[];
+  perks: EventPerk[];
+  merchNote: string;
+  ctaLabel: string;
+  registrationOpen: boolean;
+  published: boolean;
+  featured: boolean;
+  createdAt: string;
+};
+
 export type SiteData = {
   announcements: Announcement[];
   classes: ClassGroup[];
@@ -57,4 +85,5 @@ export type SiteData = {
   vision: StoryBlock;
   achievements: Achievement[];
   joinEmail: string;
+  events: SiteEvent[];
 };

@@ -19,6 +19,10 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <loc>${siteUrl()}/about</loc>
     <lastmod>2026-10-10</lastmod>
   </url>
+  <url>
+    <loc>${siteUrl()}/events</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
 </urlset>
 `;
 
@@ -31,7 +35,14 @@ function withPath(req: NextRequest) {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (pathname === "/" || pathname === "/about") return withPath(req);
+  if (
+    pathname === "/" ||
+    pathname === "/about" ||
+    pathname === "/events" ||
+    pathname.startsWith("/events/")
+  ) {
+    return withPath(req);
+  }
 
   if (pathname === "/sitemap.xml") {
     return new NextResponse(SITEMAP, {
@@ -61,5 +72,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/about", "/sitemap.xml", "/admin", "/admin/:path*"],
+  matcher: ["/", "/about", "/events", "/events/:path*", "/sitemap.xml", "/admin", "/admin/:path*"],
 };

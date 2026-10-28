@@ -6,9 +6,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Trash, SignOut } from "@phosphor-icons/react";
 import { AnnouncementsPanel } from "@/components/admin-announcements";
 import { ClassesPanel } from "@/components/admin-classes";
+import { EventsPanel } from "@/components/admin-events";
 import { MediaPanel } from "@/components/admin-media";
 import { PhotoPick } from "@/components/photo-pick";
-import type { ClassGroup, GalleryImage, Announcement, StoryBlock, Coach } from "@/lib/types";
+import type { ClassGroup, GalleryImage, Announcement, StoryBlock, Coach, SiteEvent } from "@/lib/types";
 
 type Props = {
   announcements: Announcement[];
@@ -19,6 +20,7 @@ type Props = {
   mission: StoryBlock;
   vision: StoryBlock;
   joinEmail: string;
+  events: SiteEvent[];
 };
 
 export function AdminDashboard({
@@ -30,6 +32,7 @@ export function AdminDashboard({
   mission,
   vision,
   joinEmail,
+  events,
 }: Props) {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -82,6 +85,7 @@ export function AdminDashboard({
       {error ? <p className="mt-4 text-sm text-coral">{error}</p> : null}
 
       <InboxPanel joinEmail={joinEmail} busy={busy} run={run} />
+      <EventsPanel items={events} busy={busy} run={run} />
       <AnnouncementsPanel items={announcements} busy={busy} run={run} />
       <StoryPanel mission={mission} vision={vision} busy={busy} run={run} />
       <ClassesPanel groups={classes} busy={busy} run={run} />

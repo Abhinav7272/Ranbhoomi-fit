@@ -16,6 +16,7 @@ export default async function AdminPage() {
       mission={data.mission}
       vision={data.vision}
       joinEmail={data.joinEmail}
+      events={data.events}
     />
   );
 }

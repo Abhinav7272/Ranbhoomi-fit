@@ -29,6 +29,7 @@ export const NAV = [
   { href: "/#gallery", label: "Gallery" },
   { href: "/#train", label: "Train" },
   { href: "/#timings", label: "Timings" },
+  { href: "/events", label: "Events" },
   { href: "/#announcements", label: "Announcements" },
   { href: "/#coaches", label: "Coaches" },
   { href: "/#find-us", label: "Find us" },
