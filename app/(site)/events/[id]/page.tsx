@@ -48,8 +48,8 @@ export default async function EventDetailPage({ params }: Props) {
       </div>
 
       {event.bannerUrl ? (
-        <div className="relative mx-auto mt-8 h-[240px] max-w-[1400px] overflow-hidden sm:h-[360px] lg:h-[420px] lg:rounded-[2rem] lg:px-10">
-          <div className="relative h-full w-full overflow-hidden lg:rounded-[2rem]">
+        <div className="mx-auto mt-8 max-w-[1400px] px-4 sm:px-6 lg:px-10">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[1.5rem] bg-black sm:rounded-[2rem]">
             <Image
               src={event.bannerUrl}
               alt={event.title}
@@ -57,7 +57,7 @@ export default async function EventDetailPage({ params }: Props) {
               priority
               sizes="100vw"
               unoptimized={event.bannerUrl.startsWith("http")}
-              className="object-cover"
+              className="object-contain object-center"
             />
           </div>
         </div>

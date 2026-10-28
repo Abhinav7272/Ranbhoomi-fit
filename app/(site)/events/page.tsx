@@ -40,7 +40,7 @@ export default async function EventsPage() {
                   href={`/events/${event.id}`}
                   className="group block overflow-hidden rounded-[1.75rem] border border-line bg-plum-mid transition hover:border-cream/30"
                 >
-                  <div className="relative h-48">
+                  <div className="relative aspect-[16/9] w-full bg-black">
                     {event.bannerUrl ? (
                       <Image
                         src={event.bannerUrl}
@@ -48,7 +48,7 @@ export default async function EventsPage() {
                         fill
                         sizes="(max-width: 640px) 100vw, 50vw"
                         unoptimized={event.bannerUrl.startsWith("http")}
-                        className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                        className="object-contain object-center transition duration-500 group-hover:scale-[1.01]"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-plum-soft" />

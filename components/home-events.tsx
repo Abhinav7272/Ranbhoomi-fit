@@ -20,7 +20,7 @@ export function HomeEvents({ event }: { event: SiteEvent | null }) {
         <Reveal delay={0.06}>
           <article className="mt-8 overflow-hidden rounded-[2rem] border border-line bg-plum-mid sm:rounded-[2.5rem]">
             <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
-              <div className="relative min-h-[240px] sm:min-h-[320px]">
+              <div className="relative aspect-[16/9] w-full bg-black lg:aspect-auto lg:min-h-[320px]">
                 {event.bannerUrl ? (
                   <Image
                     src={event.bannerUrl}
@@ -28,7 +28,7 @@ export function HomeEvents({ event }: { event: SiteEvent | null }) {
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     unoptimized={event.bannerUrl.startsWith("http")}
-                    className="object-cover"
+                    className="object-contain object-center lg:object-cover lg:object-left"
                   />
                 ) : (
                   <div className="absolute inset-0 bg-plum-soft" />
