@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
 import { Bricolage_Grotesque, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { SEO_DESCRIPTION, SEO_KEYWORDS, SEO_TITLE } from "@/lib/seo";
 import { SITE, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -26,9 +27,8 @@ const serif = Instrument_Serif({
   display: "swap",
 });
 
-const title = "CrossFit, Hyrox & Gym in Dehradun | Ranbhoomi";
-const description =
-  "Ranbhoomi Fitness Club in Kirsali, Dehradun. CrossFit, Hyrox, calisthenics, gymnastics, Zumba, and yoga. Book your first class.";
+const title = SEO_TITLE;
+const description = SEO_DESCRIPTION;
 
 export const metadata: Metadata = {
   title: {
@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description,
+  keywords: SEO_KEYWORDS,
   metadataBase: new URL(siteUrl()),
   robots: {
     index: true,

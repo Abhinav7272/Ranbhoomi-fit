@@ -1,11 +1,12 @@
+import { SEO_DESCRIPTION, SEO_KNOWS_ABOUT } from "@/lib/seo";
 import { SITE, siteUrl } from "@/lib/site";
 
 const data = {
   "@context": "https://schema.org",
   "@type": "HealthClub",
   name: SITE.name,
-  description:
-    "CrossFit, Hyrox, calisthenics, gymnastics, Zumba, and yoga in Kirsali, Dehradun.",
+  alternateName: ["RFC", "Ranbhoomi", "Best gym in Dehradun"],
+  description: SEO_DESCRIPTION,
   url: `${siteUrl()}/`,
   telephone: SITE.phone,
   email: SITE.email,
@@ -23,7 +24,16 @@ const data = {
     name: "Dehradun",
   },
   sameAs: [SITE.instagram, SITE.facebook],
-  knowsAbout: ["CrossFit", "Hyrox", "gym training", "calisthenics", "gymnastics", "Zumba", "yoga"],
+  knowsAbout: [...SEO_KNOWS_ABOUT],
+  makesOffer: SEO_KNOWS_ABOUT.filter((k) => !k.toLowerCase().startsWith("best")).map((name) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name,
+      areaServed: "Dehradun",
+      provider: { "@type": "HealthClub", name: SITE.name },
+    },
+  })),
 };
 
 export function LocalBusiness() {

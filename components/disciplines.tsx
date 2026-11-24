@@ -2,17 +2,23 @@ import { WordTable } from "@/components/word-table";
 
 const disciplines = [
   "CrossFit",
-  "Calisthenics",
-  "Gymnastics",
-  "Zumba",
   "Hyrox",
+  "Hyrox Simulation",
+  "Strength & Conditioning",
+  "Calisthenics",
+  "Olympic Lifting",
+  "Power Lifting",
+  "Endurance Building",
   "Yoga",
+  "Kick Boxing",
+  "Parkour",
+  "Gymnastics",
+  "Kids Gymnastics",
+  "Kids Fitness",
+  "Zumba",
   "Lifts",
   "Jumps",
   "Runs",
-  "Rings",
-  "Sled",
-  "Kids Gymnastics",
 ];
 
 export function Disciplines() {

@@ -23,6 +23,10 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <loc>${siteUrl()}/events</loc>
     <lastmod>2026-10-28</lastmod>
   </url>
+  <url>
+    <loc>${siteUrl()}/dehradun</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
 </urlset>
 `;
 
@@ -38,6 +42,7 @@ export async function middleware(req: NextRequest) {
   if (
     pathname === "/" ||
     pathname === "/about" ||
+    pathname === "/dehradun" ||
     pathname === "/events" ||
     pathname.startsWith("/events/")
   ) {
@@ -72,5 +77,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/about", "/events", "/events/:path*", "/sitemap.xml", "/admin", "/admin/:path*"],
+  matcher: ["/", "/about", "/dehradun", "/events", "/events/:path*", "/sitemap.xml", "/admin", "/admin/:path*"],
 };

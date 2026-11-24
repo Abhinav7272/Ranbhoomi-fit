@@ -26,7 +26,12 @@ export function Footer() {
           <p className="font-serif text-xl italic leading-tight text-cream drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] sm:text-2xl">
             Win the battle <span className="not-italic font-sans font-semibold">within</span>
           </p>
+          <p className="mt-2 max-w-[42ch] text-xs leading-relaxed text-cream/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] sm:text-sm">
+            Best gym in Dehradun · CrossFit · Hyrox · Calisthenics · Kids gymnastics · Yoga ·
+            Strength & conditioning
+          </p>
           <div className="mt-2 space-y-1 text-sm text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+
             <p className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 shrink-0" />
               <a href={SITE.mapsLink} target="_blank" rel="noreferrer" className="hover:underline">
@@ -75,12 +80,15 @@ export function Footer() {
               <FacebookLogo size={18} />
             </a>
           </div>
-          <div className="flex gap-5 text-sm font-medium text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+          <div className="flex flex-wrap gap-5 text-sm font-medium text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
             <Link href="/#timings" className="hover:underline">
               Timings
             </Link>
             <Link href="/#find-us" className="hover:underline">
               Find us
+            </Link>
+            <Link href="/dehradun" className="hover:underline">
+              Dehradun searches
             </Link>
           </div>
         </div>

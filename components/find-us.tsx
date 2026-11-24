@@ -19,7 +19,12 @@ export function FindUs({ classes }: { classes: ClassGroup[] }) {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             Find <em className="font-serif font-normal italic">us</em>
           </h2>
+          <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-cream-dim">
+            Visit the best gym and fitness club in Dehradun — Ranbhoomi Fitness Club, Kirsali, for
+            CrossFit, Hyrox, kids fitness classes, and strength training.
+          </p>
           <ul className="mt-6 space-y-4 text-sm text-cream-dim">
+
             <li className="flex gap-3">
               <MapPin size={20} className="mt-0.5 shrink-0 text-coral" />
               <a href={SITE.mapsLink} target="_blank" rel="noreferrer" className="hover:text-cream">

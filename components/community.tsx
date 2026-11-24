@@ -33,7 +33,8 @@ export function Community() {
             Not a gym. A <em className="font-serif font-normal italic">community</em>
           </h2>
           <p className="mt-3 max-w-[58ch] text-sm leading-relaxed text-cream-dim">
-            CrossFit, Hyrox, calisthenics, and gym training in Kirsali, Dehradun. Walk in, say hi, train with us.
+            CrossFit, Hyrox, calisthenics, and gym training in Kirsali, Dehradun. Walk in, say hi,
+            train with us.
           </p>
         </Reveal>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

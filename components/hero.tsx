@@ -32,8 +32,8 @@ export function Hero() {
           <h1 className="text-xl font-semibold leading-[1.15] tracking-tight text-cream drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)] sm:text-3xl">
             Win the battle <em className="font-serif font-normal italic">within.</em>
           </h1>
-          <p className="mt-3 max-w-[42ch] text-sm leading-relaxed text-cream drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
-            CrossFit, Hyrox, and gym training in Dehradun.
+          <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-cream drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+            Best gym in Dehradun for CrossFit, Hyrox, strength & conditioning, and kids fitness.
             <br />
             Not a gym. A community.
           </p>
