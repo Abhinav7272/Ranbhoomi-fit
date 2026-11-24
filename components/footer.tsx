@@ -80,15 +80,12 @@ export function Footer() {
               <FacebookLogo size={18} />
             </a>
           </div>
-          <div className="flex flex-wrap gap-5 text-sm font-medium text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+          <div className="flex gap-5 text-sm font-medium text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
             <Link href="/#timings" className="hover:underline">
               Timings
             </Link>
             <Link href="/#find-us" className="hover:underline">
               Find us
-            </Link>
-            <Link href="/dehradun" className="hover:underline">
-              Dehradun searches
             </Link>
           </div>
         </div>

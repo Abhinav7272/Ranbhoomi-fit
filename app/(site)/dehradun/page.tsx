@@ -1,47 +1,76 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SEO_ABOUT_COPY, SEO_DESCRIPTION } from "@/lib/seo";
-import { DEHRADUN_TOP_SEARCHES } from "@/lib/seo-dehradun-searches";
+import { SEO_DESCRIPTION } from "@/lib/seo";
+import { DEHRADUN_KEYWORD_SECTIONS, DEHRADUN_TOP_SEARCHES } from "@/lib/seo-dehradun-searches";
 
 export const metadata: Metadata = {
-  title: "Top Gym & Fitness Searches in Dehradun",
+  title: "Fitness in Dehradun — Gym, CrossFit, Hyrox & Kids Fitness",
   description: SEO_DESCRIPTION,
   keywords: [...DEHRADUN_TOP_SEARCHES],
 };
 
-export default function DehradunSearchesPage() {
+export default function DehradunPage() {
+  const count = DEHRADUN_TOP_SEARCHES.length;
+
   return (
     <div className="pt-24">
-      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <p className="text-sm uppercase tracking-[0.18em] text-cream/70">Local SEO · Dehradun</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-cream sm:text-4xl">
-          Top 500 fitness searches in <em className="font-serif font-normal italic">Dehradun</em>
+      <article className="mx-auto max-w-[900px] px-4 pb-20 sm:px-6 lg:px-10">
+        <nav aria-label="Breadcrumb" className="text-sm text-cream/55">
+          <Link href="/" className="hover:text-cream">
+            Home
+          </Link>
+          <span className="mx-2" aria-hidden>
+            /
+          </span>
+          <span className="text-cream/80">Dehradun</span>
+        </nav>
+
+        <p className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-coral">Dehradun</p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-cream sm:text-5xl">
+          Fitness in Dehradun
         </h1>
-        <p className="mt-4 max-w-[72ch] text-sm leading-relaxed text-cream-dim">{SEO_ABOUT_COPY}</p>
-        <p className="mt-4 max-w-[72ch] text-sm leading-relaxed text-cream-dim">
-          Ranbhoomi Fitness Club (RFC) in Kirsali ranks for gym, CrossFit, Hyrox, kids fitness, and
-          strength searches across Dehradun. Browse the phrases people use below, then{" "}
+        <p className="mt-5 max-w-[62ch] text-sm leading-relaxed text-cream-dim sm:text-base">
+          Find Hyrox, CrossFit, gyms, yoga, calisthenics, kids fitness, and coaches in Dehradun with
+          Ranbhoomi Fitness Club (RFC) in Kirsali. These local searches live on this page so people
+          looking for training nearby can find our coached fitness community on Sahastradhara Road.
+        </p>
+        <p className="mt-3 text-xs text-cream/45">{count.toLocaleString()} local search phrases</p>
+
+        <div className="mt-14 space-y-14">
+          {DEHRADUN_KEYWORD_SECTIONS.map((section) => (
+            <section key={section.id} aria-labelledby={`dehradun-${section.id}`}>
+              <h2
+                id={`dehradun-${section.id}`}
+                className="text-xl font-semibold tracking-tight text-cream sm:text-2xl"
+              >
+                {section.title}
+              </h2>
+              <p className="mt-3 max-w-[62ch] text-sm leading-relaxed text-cream-dim">{section.body}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {section.keywords.map((keyword) => (
+                  <li key={keyword}>
+                    <span className="inline-block rounded-full border border-cream/20 bg-cream/[0.04] px-3 py-1.5 text-xs text-cream/85 sm:text-sm">
+                      {keyword}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        <p className="mt-16 max-w-[62ch] text-sm leading-relaxed text-cream-dim">
+          Ready to train?{" "}
           <Link href="/#join" className="text-cream underline underline-offset-4 hover:text-coral">
-            book your first class
+            Book your first class free
           </Link>{" "}
           or{" "}
           <Link href="/#find-us" className="text-cream underline underline-offset-4 hover:text-coral">
-            find us
+            find us in Kirsali, Dehradun
           </Link>
           .
         </p>
-      </section>
-
-      <section className="mx-auto mt-10 max-w-[1400px] px-4 pb-16 sm:px-6 lg:px-10" aria-label="Dehradun search phrases">
-        <ol className="columns-1 gap-x-10 text-sm text-cream-dim sm:columns-2 lg:columns-3">
-          {DEHRADUN_TOP_SEARCHES.map((phrase, i) => (
-            <li key={phrase} className="mb-2 break-inside-avoid">
-              <span className="mr-2 tabular-nums text-cream/40">{i + 1}.</span>
-              {phrase}
-            </li>
-          ))}
-        </ol>
-      </section>
+      </article>
     </div>
   );
 }

@@ -8,7 +8,6 @@ import { Hero } from "@/components/hero";
 import { Highlights } from "@/components/highlights";
 import { HomeEvents } from "@/components/home-events";
 import { HomeTimings } from "@/components/home-timings";
-import { SeoLocal } from "@/components/seo-local";
 import { Story } from "@/components/story";
 import { featuredEvent, getSiteData } from "@/lib/store";
 
@@ -25,7 +24,6 @@ export default async function HomePage() {
       <Gallery items={data.gallery} lightboxItems={data.gallery} />
       <Community />
       <Disciplines />
-      <SeoLocal />
       <HomeTimings groups={data.classes} />
       <Highlights items={data.highlights} lightboxItems={data.highlights} />
       <Announcements items={data.announcements} />
